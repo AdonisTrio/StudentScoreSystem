@@ -1,5 +1,7 @@
 #include <iostream>
-#include <sqlite3.h>  // 如果能找到这个文件，说明配置成功
+#include "sqlite3.h"  // 如果能找到这个文件，说明配置成功
+
+#pragma comment(lib, "sqlite3.lib")
 
 int main() {
     sqlite3* db;
