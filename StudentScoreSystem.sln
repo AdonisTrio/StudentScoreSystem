@@ -1,31 +1,25 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36908.2 d17.14
+VisualStudioVersion = 17.14.36518.9 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StudentScoreSystem", "StudentScoreSystem\StudentScoreSystem.vcxproj", "{1F8D4896-6622-4E7A-BDA1-B744391C03CE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StudentScoreSystem", "StudentScoreSystem.vcxproj", "{76486FA3-8091-4CE4-9B4E-1CDE00090770}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
 		Release|x64 = Release|x64
-		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1F8D4896-6622-4E7A-BDA1-B744391C03CE}.Debug|x64.ActiveCfg = Debug|x64
-		{1F8D4896-6622-4E7A-BDA1-B744391C03CE}.Debug|x64.Build.0 = Debug|x64
-		{1F8D4896-6622-4E7A-BDA1-B744391C03CE}.Debug|x86.ActiveCfg = Debug|Win32
-		{1F8D4896-6622-4E7A-BDA1-B744391C03CE}.Debug|x86.Build.0 = Debug|Win32
-		{1F8D4896-6622-4E7A-BDA1-B744391C03CE}.Release|x64.ActiveCfg = Release|x64
-		{1F8D4896-6622-4E7A-BDA1-B744391C03CE}.Release|x64.Build.0 = Release|x64
-		{1F8D4896-6622-4E7A-BDA1-B744391C03CE}.Release|x86.ActiveCfg = Release|Win32
-		{1F8D4896-6622-4E7A-BDA1-B744391C03CE}.Release|x86.Build.0 = Release|Win32
+		{76486FA3-8091-4CE4-9B4E-1CDE00090770}.Debug|x64.ActiveCfg = Debug|x64
+		{76486FA3-8091-4CE4-9B4E-1CDE00090770}.Debug|x64.Build.0 = Debug|x64
+		{76486FA3-8091-4CE4-9B4E-1CDE00090770}.Release|x64.ActiveCfg = Release|x64
+		{76486FA3-8091-4CE4-9B4E-1CDE00090770}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {84D0F70F-8FDD-4F59-92A8-E9D31DA12261}
+		SolutionGuid = {3C28F561-6AD9-4DCD-8C09-F336D820B3BF}
 	EndGlobalSection
 EndGlobal

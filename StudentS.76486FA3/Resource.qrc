@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/resourses">
+        <file>NJUST.png</file>
+    </qresource>
+</RCC>
