@@ -1,5 +1,6 @@
 ﻿#include "MainWindow.h"
 #include "InitialWidget.h"
+#include<QAbstractItemView>
 
 MainWindow::MainWindow(QWidget* parent) 
 {
@@ -29,18 +30,18 @@ void MainWindow::menu_bar()
 
 	//编辑栏
 	qa* editmenu = menuBar->addAction("编辑");
-	connect(editmenu, &qa::triggered, this, &MainWindow::On_editmenu_triggered);
+	connect(editmenu, &qa::triggered, this,  & MainWindow::On_editmenu_triggered);
 
 	qa* deletemenu = menuBar->addAction("删除");
 
-	qm* sortmenu = menuBar->addMenu("排序");
+	qa* sortmenu = menuBar->addAction("排序");
 
 
 	qa* exportmenu = menuBar->addAction("导出");
 
 	//返回栏
 	qa* returnmenu = menuBar->addAction("返回");
-	connect(returnmenu, &qa::triggered, this, &MainWindow::On_returnmenu_triggered);
+	connect(returnmenu, & qa::triggered, this,  & MainWindow::On_returnmenu_triggered);
 
 
 	qw* search_Widget = searchWidget();
@@ -68,6 +69,8 @@ QWidget*  MainWindow::searchWidget()
 	searchEdit->setPlaceholderText("搜索...");
 	searchEdit->setFixedWidth(220);   
 	searchEdit->setMinimumHeight(26);  
+	connect(searchEdit, &QLineEdit::textChanged, this,
+		[=]() { On_searchedit_Changed(searchEdit->text().trimmed());});
 
 	QAction* searchIcon = new QAction(searchEdit);
 	searchIcon->setIcon(QIcon::fromTheme("edit-find"));
@@ -78,7 +81,7 @@ QWidget*  MainWindow::searchWidget()
 	return searchWidget;
 }
 
-
+//使用户可以双击编辑表格内容
 void MainWindow::On_editmenu_triggered()
 {
 	table->setEditTriggers(QAbstractItemView::DoubleClicked);
@@ -95,4 +98,29 @@ void MainWindow::On_returnmenu_triggered()
 		ParentWidget->activateWindow();
 	}
 	this->close();
+}
+
+
+//搜索框内容改变时的槽函数，遍历表格内容并选中包含搜索关键字的行
+void MainWindow::On_searchedit_Changed(const QString& key)
+{
+	if (key.isEmpty())
+		return;
+	int rowCount = table->rowCount();
+	int columnCount = table->columnCount();
+	table->setSelectionMode(QAbstractItemView::MultiSelection);
+	table->setSelectionBehavior(QAbstractItemView::SelectRows);
+	for(int i = 2; i < rowCount; ++i) 
+	{
+		for (int j = 0; j < columnCount; ++j) 
+		{
+			QTableWidgetItem* item = table->item(i, j);
+			if (item && item->text().contains(key, Qt::CaseInsensitive)) 
+			{
+				table->selectRow(i);   
+				break;
+			}
+		}
+	}
+	table->setFocus();
 }

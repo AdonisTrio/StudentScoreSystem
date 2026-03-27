@@ -1,0 +1,66 @@
+# 编译输出目录
+build-*/
+*-build-*/
+build/
+out/
+cmake-build-*/
+
+# qmake 生成
+Makefile
+Makefile.*
+moc_*.cpp
+moc_*.h
+qrc_*.cpp
+ui_*.h
+*.o
+*.obj
+
+# 可执行文件与库
+*.exe
+*.dll
+*.so
+*.so.*
+*.dylib
+*.a
+*.lib
+*.prl
+
+# Qt Creator 配置
+*.pro.user
+*.pro.user.*
+*.autosave
+*.qbs.user
+*.qbs.user.*
+.qmake.stash
+.qtc/
+.qt/
+
+# QML 缓存
+*.qmlc
+*.jsc
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+install_manifest.txt
+CTestTestfile.cmake
+_CPack_Packages/
+
+# Visual Studio 相关
+*.sdf
+*.opensdf
+*.suo
+*.vcxproj.user
+*.vcxproj.filters
+ipch/
+*.ipch
+
+# 编辑器与系统
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.swp
+*.bak
+*.tmp

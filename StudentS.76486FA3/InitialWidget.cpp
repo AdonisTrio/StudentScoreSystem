@@ -12,7 +12,7 @@ void InitialWidget::initialize_widget()
 
 	//按钮
 	bt* b1 = new bt("打开本地数据库", this);
-	connect(b1, & bt::clicked, this, &InitialWidget::On_bt1_Clicked);
+	connect(b1,& bt::clicked, this, & InitialWidget::On_bt1_Clicked);
 	bt* b2 = new bt("导入外部CSV文件", this);
 	b1->setFont(QFont("SimSun", 15));
 	b2->setFont(QFont("SimSun", 15));

@@ -1,5 +1,6 @@
 ﻿#include "Table.h"
 
+
 Table::Table(QWidget* parent) 
 {
 	
