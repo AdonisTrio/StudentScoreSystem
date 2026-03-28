@@ -50,8 +50,8 @@ void InitialWidget::On_bt1_Clicked()
 	{
 		QString path = QFileDialog::getOpenFileName(
 			this,
-			"选择已有数据库",
-			"students.db",
+			"选择本地数据库",
+			QDir::currentPath() + "/Database/students.db",
 			"SQLite数据库 (*.db )"
 		);
 

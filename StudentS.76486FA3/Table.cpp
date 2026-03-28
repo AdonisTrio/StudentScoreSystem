@@ -1,11 +1,5 @@
 ﻿#include "Table.h"
 
-
-Table::Table(QWidget* parent) 
-{
-	
-}
-
 void Table::OpenLocalDatabase(QString path)
 {
 	DB = new DatabaseHelper;

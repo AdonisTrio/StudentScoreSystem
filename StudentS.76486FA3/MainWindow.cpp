@@ -38,6 +38,7 @@ void MainWindow::menu_bar()
 
 
 	qa* exportmenu = menuBar->addAction("导出");
+	connect(exportmenu, &qa::triggered, this, &MainWindow::On_exportmenu_triggered);
 
 	//返回栏
 	qa* returnmenu = menuBar->addAction("返回");
@@ -87,6 +88,21 @@ void MainWindow::On_editmenu_triggered()
 	table->setEditTriggers(QAbstractItemView::DoubleClicked);
 }
 
+
+void MainWindow::On_exportmenu_triggered()
+{
+	CSV_Helper* csv = new CSV_Helper(table->get_current_studentlist());
+	QString newFilePath = QFileDialog::getSaveFileName(
+		this,
+		"导出为CSV",
+		QDir::currentPath() + "/CSV/students.csv", // 默认路径+文件名
+		"CSV文件 (*.csv)"
+	);
+	if (!newFilePath.isEmpty())
+	{
+		csv->export_to_csv(newFilePath.toStdString());
+	}
+}
 
 //返回父窗口并关闭当前窗口
 void MainWindow::On_returnmenu_triggered()

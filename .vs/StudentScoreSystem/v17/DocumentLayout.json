@@ -3,28 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\Kismet\\Desktop\\StudentScoreSystem\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{76486FA3-8091-4CE4-9B4E-1CDE00090770}|StudentScoreSystem.vcxproj|C:\\Users\\Kismet\\Desktop\\StudentScoreSystem\\StudentS.76486FA3\\DatabaseHelper.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{76486FA3-8091-4CE4-9B4E-1CDE00090770}|StudentScoreSystem.vcxproj|solutionrelative:StudentS.76486FA3\\DatabaseHelper.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{76486FA3-8091-4CE4-9B4E-1CDE00090770}|StudentScoreSystem.vcxproj|C:\\Users\\Kismet\\Desktop\\StudentScoreSystem\\StudentS.76486FA3\\MainWindow.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{76486FA3-8091-4CE4-9B4E-1CDE00090770}|StudentScoreSystem.vcxproj|solutionrelative:StudentS.76486FA3\\MainWindow.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{76486FA3-8091-4CE4-9B4E-1CDE00090770}|StudentScoreSystem.vcxproj|C:\\Users\\Kismet\\Desktop\\StudentScoreSystem\\StudentS.76486FA3\\InitialWidget.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{76486FA3-8091-4CE4-9B4E-1CDE00090770}|StudentScoreSystem.vcxproj|solutionrelative:StudentS.76486FA3\\InitialWidget.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{76486FA3-8091-4CE4-9B4E-1CDE00090770}|StudentScoreSystem.vcxproj|C:\\Users\\Kismet\\Desktop\\StudentScoreSystem\\StudentS.76486FA3\\Table.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{76486FA3-8091-4CE4-9B4E-1CDE00090770}|StudentScoreSystem.vcxproj|solutionrelative:StudentS.76486FA3\\Table.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{76486FA3-8091-4CE4-9B4E-1CDE00090770}|StudentScoreSystem.vcxproj|C:\\Users\\Kismet\\Desktop\\StudentScoreSystem\\StudentS.76486FA3\\MainWindow.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{76486FA3-8091-4CE4-9B4E-1CDE00090770}|StudentScoreSystem.vcxproj|solutionrelative:StudentS.76486FA3\\MainWindow.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{76486FA3-8091-4CE4-9B4E-1CDE00090770}|StudentScoreSystem.vcxproj|C:\\Users\\Kismet\\Desktop\\StudentScoreSystem\\StudentS.76486FA3\\Table.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{76486FA3-8091-4CE4-9B4E-1CDE00090770}|StudentScoreSystem.vcxproj|solutionrelative:StudentS.76486FA3\\Table.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{76486FA3-8091-4CE4-9B4E-1CDE00090770}|StudentScoreSystem.vcxproj|C:\\Users\\Kismet\\Desktop\\StudentScoreSystem\\StudentS.76486FA3\\InitialWidget.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{76486FA3-8091-4CE4-9B4E-1CDE00090770}|StudentScoreSystem.vcxproj|solutionrelative:StudentS.76486FA3\\InitialWidget.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{76486FA3-8091-4CE4-9B4E-1CDE00090770}|StudentScoreSystem.vcxproj|C:\\Users\\Kismet\\Desktop\\StudentScoreSystem\\StudentS.76486FA3\\CSV_Helper.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{76486FA3-8091-4CE4-9B4E-1CDE00090770}|StudentScoreSystem.vcxproj|solutionrelative:StudentS.76486FA3\\CSV_Helper.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{76486FA3-8091-4CE4-9B4E-1CDE00090770}|StudentScoreSystem.vcxproj|C:\\Users\\Kismet\\Desktop\\StudentScoreSystem\\StudentS.76486FA3\\CSV_Helper.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{76486FA3-8091-4CE4-9B4E-1CDE00090770}|StudentScoreSystem.vcxproj|solutionrelative:StudentS.76486FA3\\CSV_Helper.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -46,74 +42,65 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "DatabaseHelper.cpp",
-              "DocumentMoniker": "C:\\Users\\Kismet\\Desktop\\StudentScoreSystem\\StudentS.76486FA3\\DatabaseHelper.cpp",
-              "RelativeDocumentMoniker": "StudentS.76486FA3\\DatabaseHelper.cpp",
-              "ToolTip": "C:\\Users\\Kismet\\Desktop\\StudentScoreSystem\\StudentS.76486FA3\\DatabaseHelper.cpp",
-              "RelativeToolTip": "StudentS.76486FA3\\DatabaseHelper.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-03-28T15:58:20.675Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Table.cpp",
-              "DocumentMoniker": "C:\\Users\\Kismet\\Desktop\\StudentScoreSystem\\StudentS.76486FA3\\Table.cpp",
-              "RelativeDocumentMoniker": "StudentS.76486FA3\\Table.cpp",
-              "ToolTip": "C:\\Users\\Kismet\\Desktop\\StudentScoreSystem\\StudentS.76486FA3\\Table.cpp",
-              "RelativeToolTip": "StudentS.76486FA3\\Table.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-03-27T18:09:48.236Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Table.h",
-              "DocumentMoniker": "C:\\Users\\Kismet\\Desktop\\StudentScoreSystem\\StudentS.76486FA3\\Table.h",
-              "RelativeDocumentMoniker": "StudentS.76486FA3\\Table.h",
-              "ToolTip": "C:\\Users\\Kismet\\Desktop\\StudentScoreSystem\\StudentS.76486FA3\\Table.h",
-              "RelativeToolTip": "StudentS.76486FA3\\Table.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAADwvwMAAAAWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-03-27T18:08:31.861Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "MainWindow.h",
-              "DocumentMoniker": "C:\\Users\\Kismet\\Desktop\\StudentScoreSystem\\StudentS.76486FA3\\MainWindow.h",
-              "RelativeDocumentMoniker": "StudentS.76486FA3\\MainWindow.h",
-              "ToolTip": "C:\\Users\\Kismet\\Desktop\\StudentScoreSystem\\StudentS.76486FA3\\MainWindow.h",
-              "RelativeToolTip": "StudentS.76486FA3\\MainWindow.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAADwvzQAAAAXAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-03-27T17:55:04.086Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 2,
               "Title": "InitialWidget.cpp",
               "DocumentMoniker": "C:\\Users\\Kismet\\Desktop\\StudentScoreSystem\\StudentS.76486FA3\\InitialWidget.cpp",
               "RelativeDocumentMoniker": "StudentS.76486FA3\\InitialWidget.cpp",
               "ToolTip": "C:\\Users\\Kismet\\Desktop\\StudentScoreSystem\\StudentS.76486FA3\\InitialWidget.cpp",
               "RelativeToolTip": "StudentS.76486FA3\\InitialWidget.cpp",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABAAAAAiAAAAAAAAAA==",
+              "ViewState": "AgIAAC0AAAAAAAAAAADwvzUAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-03-27T17:53:12.386Z"
+              "WhenOpened": "2026-03-28T17:57:30.039Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CSV_Helper.cpp",
+              "DocumentMoniker": "C:\\Users\\Kismet\\Desktop\\StudentScoreSystem\\StudentS.76486FA3\\CSV_Helper.cpp",
+              "RelativeDocumentMoniker": "StudentS.76486FA3\\CSV_Helper.cpp",
+              "ToolTip": "C:\\Users\\Kismet\\Desktop\\StudentScoreSystem\\StudentS.76486FA3\\CSV_Helper.cpp",
+              "RelativeToolTip": "StudentS.76486FA3\\CSV_Helper.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-03-28T17:06:59.488Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CSV_Helper.h",
+              "DocumentMoniker": "C:\\Users\\Kismet\\Desktop\\StudentScoreSystem\\StudentS.76486FA3\\CSV_Helper.h",
+              "RelativeDocumentMoniker": "StudentS.76486FA3\\CSV_Helper.h",
+              "ToolTip": "C:\\Users\\Kismet\\Desktop\\StudentScoreSystem\\StudentS.76486FA3\\CSV_Helper.h",
+              "RelativeToolTip": "StudentS.76486FA3\\CSV_Helper.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-03-28T17:06:01.244Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "MainWindow.h",
+              "DocumentMoniker": "C:\\Users\\Kismet\\Desktop\\StudentScoreSystem\\StudentS.76486FA3\\MainWindow.h",
+              "RelativeDocumentMoniker": "StudentS.76486FA3\\MainWindow.h",
+              "ToolTip": "C:\\Users\\Kismet\\Desktop\\StudentScoreSystem\\StudentS.76486FA3\\MainWindow.h",
+              "RelativeToolTip": "StudentS.76486FA3\\MainWindow.h",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAABQAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-03-27T17:55:04.086Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
               "Title": "MainWindow.cpp",
               "DocumentMoniker": "C:\\Users\\Kismet\\Desktop\\StudentScoreSystem\\StudentS.76486FA3\\MainWindow.cpp",
               "RelativeDocumentMoniker": "StudentS.76486FA3\\MainWindow.cpp",
               "ToolTip": "C:\\Users\\Kismet\\Desktop\\StudentScoreSystem\\StudentS.76486FA3\\MainWindow.cpp",
               "RelativeToolTip": "StudentS.76486FA3\\MainWindow.cpp",
-              "ViewState": "AgIAAGMAAAAAAAAAAAAAAIMAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABsAAAAAAAAAAADwvygAAABRAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-03-27T17:51:47.319Z",
               "EditorCaption": ""

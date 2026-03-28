@@ -26,7 +26,7 @@ public:
 	void setCredit(double c);
 
 	void evaluateCreditPoint();           //根据得分计算绩点
-	string doubleToString(double num, int precision = 10);
+	string doubleToString(double num, int precision = 4);
 
 	friend class Student;
 };

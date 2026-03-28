@@ -18,6 +18,7 @@
 #include<QMessageBox>
 #include"DatabaseHelper.h"
 #include "Table.h"
+#include"CSV_Helper.h"
 
 class InitialWidget;
 
@@ -49,6 +50,7 @@ public:
 
 private slots:
 	void On_editmenu_triggered();
+	void On_exportmenu_triggered();
 	void On_returnmenu_triggered();
 	void On_searchedit_Changed(const QString& text);
 };
