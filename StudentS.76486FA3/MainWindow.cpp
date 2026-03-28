@@ -69,7 +69,7 @@ QWidget*  MainWindow::searchWidget()
 	searchEdit->setPlaceholderText("搜索...");
 	searchEdit->setFixedWidth(220);   
 	searchEdit->setMinimumHeight(26);  
-	connect(searchEdit, &QLineEdit::textChanged, this,
+	connect(searchEdit, &QLineEdit::returnPressed, this,
 		[=]() { On_searchedit_Changed(searchEdit->text().trimmed());});
 
 	QAction* searchIcon = new QAction(searchEdit);
@@ -107,12 +107,11 @@ void MainWindow::On_searchedit_Changed(const QString& key)
 	if (key.isEmpty())
 		return;
 	int rowCount = table->rowCount();
-	int columnCount = table->columnCount();
 	table->setSelectionMode(QAbstractItemView::MultiSelection);
 	table->setSelectionBehavior(QAbstractItemView::SelectRows);
 	for(int i = 2; i < rowCount; ++i) 
 	{
-		for (int j = 0; j < columnCount; ++j) 
+		for (int j = 1; j < 4; ++j) 
 		{
 			QTableWidgetItem* item = table->item(i, j);
 			if (item && item->text().contains(key, Qt::CaseInsensitive)) 
@@ -121,6 +120,12 @@ void MainWindow::On_searchedit_Changed(const QString& key)
 				break;
 			}
 		}
+	}
+	table->setSelectionMode(QAbstractItemView::SingleSelection);
+	table->setSelectionBehavior(QAbstractItemView::SelectItems);
+	if (table->selectedItems().isEmpty()) 
+	{
+		QMessageBox::information(this, "  ", "未找到匹配的记录。");
 	}
 	table->setFocus();
 }

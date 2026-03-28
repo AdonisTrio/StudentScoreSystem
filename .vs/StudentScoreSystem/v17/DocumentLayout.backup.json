@@ -50,8 +50,7 @@
               "RelativeToolTip": "StudentS.76486FA3\\Table.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-03-27T18:09:48.236Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-27T18:09:48.236Z"
             },
             {
               "$type": "Document",
@@ -63,8 +62,7 @@
               "RelativeToolTip": "StudentS.76486FA3\\Table.h",
               "ViewState": "AgIAAAAAAAAAAAAAAADwvwMAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-03-27T18:08:31.861Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-27T18:08:31.861Z"
             },
             {
               "$type": "Document",
@@ -76,8 +74,7 @@
               "RelativeToolTip": "StudentS.76486FA3\\MainWindow.h",
               "ViewState": "AgIAAAAAAAAAAAAAAADwvzQAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-03-27T17:55:04.086Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-27T17:55:04.086Z"
             },
             {
               "$type": "Document",
@@ -89,8 +86,7 @@
               "RelativeToolTip": "StudentS.76486FA3\\InitialWidget.cpp",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAABAAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-03-27T17:53:12.386Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-27T17:53:12.386Z"
             },
             {
               "$type": "Document",
@@ -98,9 +94,9 @@
               "Title": "MainWindow.cpp",
               "DocumentMoniker": "C:\\Users\\Kismet\\Desktop\\StudentScoreSystem\\StudentS.76486FA3\\MainWindow.cpp",
               "RelativeDocumentMoniker": "StudentS.76486FA3\\MainWindow.cpp",
-              "ToolTip": "C:\\Users\\Kismet\\Desktop\\StudentScoreSystem\\StudentS.76486FA3\\MainWindow.cpp*",
-              "RelativeToolTip": "StudentS.76486FA3\\MainWindow.cpp*",
-              "ViewState": "AgIAABIAAAAAAAAAAAAAACYAAAAAAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\Kismet\\Desktop\\StudentScoreSystem\\StudentS.76486FA3\\MainWindow.cpp",
+              "RelativeToolTip": "StudentS.76486FA3\\MainWindow.cpp",
+              "ViewState": "AgIAAGMAAAAAAAAAAAAAAIMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-03-27T17:51:47.319Z",
               "EditorCaption": ""
