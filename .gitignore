@@ -1,66 +1,70 @@
-# 编译输出目录
-build-*/
-*-build-*/
-build/
-out/
-cmake-build-*/
-
-# qmake 生成
-Makefile
-Makefile.*
-moc_*.cpp
-moc_*.h
-qrc_*.cpp
-ui_*.h
-*.o
-*.obj
-
-# 可执行文件与库
-*.exe
-*.dll
-*.so
-*.so.*
-*.dylib
-*.a
-*.lib
-*.prl
-
-# Qt Creator 配置
-*.pro.user
-*.pro.user.*
-*.autosave
-*.qbs.user
-*.qbs.user.*
-.qmake.stash
-.qtc/
-.qt/
-
-# QML 缓存
-*.qmlc
-*.jsc
-
-# CMake
-CMakeCache.txt
-CMakeFiles/
-cmake_install.cmake
-install_manifest.txt
-CTestTestfile.cmake
-_CPack_Packages/
-
-# Visual Studio 相关
+# ==============================================
+# Visual Studio  IDE 缓存与用户配置
+# ==============================================
+.vs/
 *.sdf
 *.opensdf
 *.suo
-*.vcxproj.user
-*.vcxproj.filters
-ipch/
-*.ipch
+*.user
+*.userosscache
+*.sln.docstates
 
-# 编辑器与系统
-.idea/
-.vscode/
+# ==============================================
+# Qt 框架生成的临时文件
+# ==============================================
+moc_*.cpp
+moc_*.h
+ui_*.h
+qrc_*.cpp
+*.pro.user
+*.pro.user.*
+*.autosave
+Makefile*
+*.qmlc
+*.jsc
+*.qmake.cache
+*.qmake.stash
+
+# ==============================================
+# 编译输出与中间文件
+# ==============================================
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# 编译生成的二进制/符号文件
+*.exe
+*.dll
+*.lib
+*.a
+*.so
+*.dylib
+*.pdb
+*.ilk
+*.exp
+*.obj
+*.o
+*.res
+*.pch
+
+# ==============================================
+# 日志与临时备份文件
+# ==============================================
+*.log
+*.tlog
+*.backup.json
+*.tmp
+*.temp
+*.bak
+*.swp
+
+# ==============================================
+# 系统自动生成的文件
+# ==============================================
 .DS_Store
 Thumbs.db
-*.swp
-*.bak
-*.tmp
+desktop.ini
