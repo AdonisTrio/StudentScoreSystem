@@ -1,7 +1,0 @@
-﻿   Qt/MSBuild: 3.5.0.0
-   Qt: 6.10.2
-  MainWindow.cpp
-C:\Users\Kismet\Desktop\StudentScoreSystem\StudentS.76486FA3\Student.h(25,44): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
-  (编译源文件“StudentS.76486FA3/MainWindow.cpp”)
-  
-  StudentScoreSystem.vcxproj -> C:\Users\Kismet\Desktop\StudentScoreSystem\x64\Debug\StudentScoreSystem.exe
