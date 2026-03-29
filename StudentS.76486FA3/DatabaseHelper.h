@@ -15,6 +15,7 @@ public:
 
 	bool isOpen() { return db.isOpen(); }
 
+	vector<string> split(const string& s, char delimiter);
 
 	void OpenLocalDatabase( QString );
 
@@ -36,6 +37,7 @@ public:
 	void FillTableStudents(vector<Student>);
 	//将学生对象的vector中的数据填充到数据库的Students表中
 
+	void update_Student(vector<Student>);
 };
 
 

@@ -9,6 +9,22 @@ Student::Student(string name, string dept, int studentId) : SName(name), departm
 }
 
 
+void Student::updateCourseScore(int i, double x)
+{
+	Courses[i].setScore(x); 
+	Courses[i].evaluateCreditPoint(); 
+	calculateAverageScore();
+	calculateGPA();
+}
+
+void Student::updateCourseCredit(int i, double x)
+{
+	Courses[i].setCredit(x); 
+	calculateTotalCredit();
+	calculateAverageScore();
+	calculateGPA();
+}
+
 //Setters:
 void Student::setGPA(double gpa) 
 { try{
@@ -63,6 +79,11 @@ void Student::calculateTotalCredit()
 void Student::calculateAverageScore()
 {
 	double totalScore = 0.0;
+	if(totalCredit == 0)
+	{
+		AverageScore = 0.0;
+		return;
+	}
 	vector<CourseScore>::iterator pd = Courses.begin();
 	while(pd != Courses.end())
 	{

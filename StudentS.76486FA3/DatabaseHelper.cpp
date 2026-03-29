@@ -6,6 +6,16 @@ DatabaseHelper::DatabaseHelper()
 }
 
 
+vector<string> DatabaseHelper::split(const string& s, char delimiter)
+{
+	vector<string> tokens;
+	string token;
+	istringstream tokenStream(s);
+	while (getline(tokenStream, token, delimiter))
+		tokens.push_back(token);
+	return tokens;
+}
+
 void DatabaseHelper::OpenLocalDatabase(QString path)
 {
 	db = QSqlDatabase::addDatabase("QSQLITE");
@@ -23,7 +33,7 @@ void DatabaseHelper::CreateTableStudents()
 
 void DatabaseHelper::CreateTableCourses(Student LiHua)
 {
-	string name = LiHua.getName();
+	string  name = LiHua.getName();
 	string SQL = "CREATE TABLE IF NOT EXISTS " + name + " ( 课程名称 TEXT PRIMARY KEY, 课程得分 REAL, 课程学分 REAL, 课程绩点 REAL)";
 	qsq q;
 	if (!q.exec(SQL.c_str()))
@@ -32,7 +42,7 @@ void DatabaseHelper::CreateTableCourses(Student LiHua)
 
 void DatabaseHelper::getCourseScores( Student& LiHua)
 {
-	string name = LiHua.getName();
+	string  name = LiHua.getName();
 	string SQL = "SELECT * FROM " + name;
 	qsq q;
 	q.exec(SQL.c_str());
@@ -75,10 +85,10 @@ void DatabaseHelper::FillTableCourses(Student LiHua)
 {
 	vector<CourseScore> courses = LiHua.getCourses();
 	vector<CourseScore>::iterator course = courses.begin();
-	string name = LiHua.getName();
+	string  name = LiHua.getName();
 	while (course != courses.end())
 	{
-		string SQL = "INSERT INTO " + name + " (课程名称, 课程得分, 课程学分, 课程绩点) VALUES ('" +
+		string SQL = "INSERT INTO " + name + "` (课程名称, 课程得分, 课程学分, 课程绩点) VALUES ('" +
 			course->getCourseName() + "', ? , ? , ?)";
 		qsq q;
 		q.prepare(SQL.c_str());
@@ -108,6 +118,26 @@ void DatabaseHelper::FillTableStudents(vector<Student> students)
 		CreateTableCourses(*student);
 		FillTableCourses(*student);
 		student++;
+	}
+}
+
+void DatabaseHelper::update_Student(vector<Student> students)
+{
+	for (auto x : students)
+	{
+		string SQL1 = "UPDATE Students SET 姓名 = ?, GPA = ? , 平均学分成绩 = ? , 总学分 = ? WHERE 学号 = ?";
+		qsq q;
+		q.prepare(SQL1.c_str());
+		q.bindValue(0, x.getName().c_str());
+		q.bindValue(1, x.getGPA());
+		q.bindValue(2, x.getAverageScore());
+		q.bindValue(3, x.getTotalCredit());
+		q.bindValue(4, x.getId());
+		q.exec();
+		
+		string SQL2 = "DELETE FROM " + x.getName();
+		q.exec(SQL2.c_str());
+		FillTableCourses(x);
 	}
 }
 

@@ -16,7 +16,7 @@ class Student
 	double AverageScore;           //学生的平均学分成绩
 	double totalCredit;			   //学生的总学分
 public:
-	Student(string name = NULL, string dept = NULL, int studentId = 0);
+	Student(string name = " ", string dept = " ", int studentId = 0);
 
 	//Getters:
 	string getName() { return SName; }
@@ -32,6 +32,8 @@ public:
 	void setName(string name) { SName = name; }
 	void setDepartment(string dept) { department = dept; }
 	void updateCourses(CourseScore course) { Courses.push_back(course); }
+	void updateCourseScore(int i, double x);
+	void updateCourseCredit(int i, double x);
 	void setGPA(double);
 	void setAverageScore(double);
 	void setTotalCredit(double);

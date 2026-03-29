@@ -27,10 +27,15 @@ void MainWindow::menu_bar()
 
 	//保存栏
 	qa* updatemenu = menuBar->addAction("保存");
+	connect(updatemenu, &qa::triggered, this, &MainWindow::On_save_menu_triggered);
 
 	//编辑栏
 	qa* editmenu = menuBar->addAction("编辑");
 	connect(editmenu, &qa::triggered, this,  & MainWindow::On_editmenu_triggered);
+
+	//取消栏
+	qa* cancelmenu = menuBar->addAction("取消");
+	connect(cancelmenu, &qa::triggered, this, &MainWindow::On_cancelmenu_triggered);
 
 	qa* deletemenu = menuBar->addAction("删除");
 
@@ -82,16 +87,30 @@ QWidget*  MainWindow::searchWidget()
 	return searchWidget;
 }
 
+//保存表格内容到数据库，并设置表格不可修改
+void MainWindow::On_save_menu_triggered()
+{
+	table->updateStudent();
+	table->setEditTriggers(QAbstractItemView::NoEditTriggers);
+}
+
+
 //使用户可以双击编辑表格内容
 void MainWindow::On_editmenu_triggered()
 {
 	table->setEditTriggers(QAbstractItemView::DoubleClicked);
 }
 
+//取消编辑，恢复表格内容为上次保存的状态
+void MainWindow::On_cancelmenu_triggered()
+{
+	table->class_to_table(table->get_saved_studentlist());
+}
+
 
 void MainWindow::On_exportmenu_triggered()
 {
-	CSV_Helper* csv = new CSV_Helper(table->get_current_studentlist());
+	CSV_Helper* csv = new CSV_Helper(table->get_saved_studentlist());
 	QString newFilePath = QFileDialog::getSaveFileName(
 		this,
 		"导出为CSV",
@@ -102,6 +121,7 @@ void MainWindow::On_exportmenu_triggered()
 	{
 		csv->export_to_csv(newFilePath.toStdString());
 	}
+	delete csv;
 }
 
 //返回父窗口并关闭当前窗口
@@ -120,6 +140,7 @@ void MainWindow::On_returnmenu_triggered()
 //搜索框内容改变时的槽函数，遍历表格内容并选中包含搜索关键字的行
 void MainWindow::On_searchedit_Changed(const QString& key)
 {
+	table->clearSelection();
 	if (key.isEmpty())
 		return;
 	int rowCount = table->rowCount();

@@ -49,7 +49,9 @@ public:
 	QWidget* searchWidget();
 
 private slots:
+	void On_save_menu_triggered();
 	void On_editmenu_triggered();
+	void On_cancelmenu_triggered();
 	void On_exportmenu_triggered();
 	void On_returnmenu_triggered();
 	void On_searchedit_Changed(const QString& text);

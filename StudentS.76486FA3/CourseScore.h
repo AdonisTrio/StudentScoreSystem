@@ -12,7 +12,7 @@ class CourseScore
 	double credit;//课程学分
 	double CreditPoint;//课程绩点
 public:
-	CourseScore(string name = NULL, double s = 0.0, double c = 0.0, double cp = 0.0);
+	CourseScore(string name = " ", double s = 0.0, double c = 0.0, double cp = 0.0);
 
 	//Getters:
 	string getCourseName() { return CName; }

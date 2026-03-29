@@ -41,7 +41,7 @@ void InitialWidget::initialize_widget()
 //选择并打开本地数据库，隐藏当前窗口
 void InitialWidget::On_bt1_Clicked()
 {
-	MainWindow* sub = new MainWindow;
+	MainWindow* sub = new MainWindow(this);
 	sub->setParent(this);
 	sub->setWindowTitle("NJUST学生成绩管理系统");
 	sub->resize(myWholeDesktop.width() * 0.85, myWholeDesktop.height() * 0.85);
@@ -54,8 +54,9 @@ void InitialWidget::On_bt1_Clicked()
 			QDir::currentPath() + "/Database/students.db",
 			"SQLite数据库 (*.db )"
 		);
-
-		if (sub->isLocalDatabaseEmpty(path))
+		if (path.isEmpty())
+			throw "请选择数据库文件！";
+		else if (sub->isLocalDatabaseEmpty(path))
 			throw "数据库中没有学生数据！";
 		else if (!sub->connect_to_database())
 			throw "连接数据库失败！";
