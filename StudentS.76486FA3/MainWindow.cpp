@@ -101,6 +101,8 @@ void MainWindow::On_save_menu_triggered()
 {
 	table->updateStudent();
 	table->setEditTriggers(QAbstractItemView::NoEditTriggers);
+	menuBar()->clear();
+	menu_bar();
 }
 
 
