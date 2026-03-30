@@ -35,16 +35,16 @@ void DatabaseHelper::CreateTableCourses(Student LiHua)
 {
 	string  name = LiHua.getName();
 	string SQL = "CREATE TABLE IF NOT EXISTS " + name + " ( 课程名称 TEXT PRIMARY KEY, 课程得分 REAL, 课程学分 REAL, 课程绩点 REAL)";
-	qsq q;
+	QSqlQuery q;
 	if (!q.exec(SQL.c_str()))
-		QMessageBox::critical(nullptr, " ", "创建课程表失败！\n" + q.lastError().text());
+		QMessageBox::critical(nullptr, " ", "创建课程成绩表失败！\n" + q.lastError().text());
 }
 
 void DatabaseHelper::getCourseScores( Student& LiHua)
 {
 	string  name = LiHua.getName();
 	string SQL = "SELECT * FROM " + name;
-	qsq q;
+	QSqlQuery q;
 	q.exec(SQL.c_str());
 	while (q.next())
 	{
@@ -63,7 +63,7 @@ vector<Student> DatabaseHelper::get_All_Students()
 {
 	vector<Student> students;
 	const char* SQL = "SELECT * FROM Students ORDER BY 平均学分成绩 DESC, 学号 ASC ";
-	qsq q;
+	QSqlQuery q;
 	q.exec(SQL);
 	while (q.next())
 	{
@@ -90,7 +90,7 @@ void DatabaseHelper::FillTableCourses(Student LiHua)
 	{
 		string SQL = "INSERT INTO " + name + " (课程名称, 课程得分, 课程学分, 课程绩点) VALUES ('" +
 			course->getCourseName() + "', ? , ? , ?)";
-		qsq q;
+		QSqlQuery q;
 		q.prepare(SQL.c_str());
 		q.bindValue(0, course->getScore());
 		q.bindValue(1, course->getCredit());
@@ -108,7 +108,7 @@ void DatabaseHelper::FillTableStudents(vector<Student> students)
 		string SQL = "INSERT INTO Students (姓名, 院系, 学号, GPA, 平均学分成绩, 总学分) VALUES ('" +
 			student->getName() + "', '" +
 			student->getDepartment() + "', ? , ? ,? , ?)";
-		qsq q;
+		QSqlQuery q;
 		q.prepare(SQL.c_str());
 		q.bindValue(0, student->getId());
 		q.bindValue(1, student->getGPA());
@@ -126,7 +126,7 @@ void DatabaseHelper::update_Student(vector<Student> students)
 	for (auto x : students)
 	{
 		string SQL1 = "UPDATE Students SET 姓名 = ?, GPA = ? , 平均学分成绩 = ? , 总学分 = ? WHERE 学号 = ?";
-		qsq q;
+		QSqlQuery q;
 		q.prepare(SQL1.c_str());
 		q.bindValue(0, x.getName().c_str());
 		q.bindValue(1, x.getGPA());

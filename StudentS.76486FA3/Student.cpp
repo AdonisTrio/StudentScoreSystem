@@ -1,5 +1,6 @@
 ﻿#include<iostream>
 #include"Student.h"
+#include"CourseScore.h"
 
 Student::Student(string name, string dept, int studentId) : SName(name), department(dept), id(studentId)
 {
@@ -62,19 +63,18 @@ void Student::setTotalCredit(double tc)
 }
 
 
-
-
 void Student::calculateTotalCredit()
 {
 	totalCredit = 0.0;
 	vector<CourseScore>::iterator pd = Courses.begin();
 	while (pd != Courses.end())
 	{
-		if(pd->score>=60)
-			totalCredit += pd->credit;
-		pd++;
+		if (pd->getScore() >= 60)
+			totalCredit += pd->getCredit();
+		++pd;
 	}
 }
+
 
 void Student::calculateAverageScore()
 {
@@ -87,8 +87,8 @@ void Student::calculateAverageScore()
 	vector<CourseScore>::iterator pd = Courses.begin();
 	while(pd != Courses.end())
 	{
-		if (pd->score >= 60)
-			totalScore += ( pd->score * pd->credit);
+		if (pd->getScore() >= 60)
+			totalScore += ( pd->getScore() * pd->getCredit());
 		pd++;
 	}
 	AverageScore = totalScore / totalCredit;
@@ -105,7 +105,7 @@ void Student::calculateGPA()
 	vector<CourseScore>::iterator pd = Courses.begin();
 	while (pd != Courses.end())
 	{
-		totalCreditPoint += (pd->CreditPoint * pd->credit);
+		totalCreditPoint += (pd->getCreditPoint() * pd->getCredit());
 		pd++;
 	}
 	GPA = totalCreditPoint / totalCredit;
