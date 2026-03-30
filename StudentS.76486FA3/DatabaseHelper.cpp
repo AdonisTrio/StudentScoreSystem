@@ -125,14 +125,15 @@ void DatabaseHelper::update_Student(vector<Student> students)
 {
 	for (auto x : students)
 	{
-		string SQL1 = "UPDATE Students SET 姓名 = ?, GPA = ? , 平均学分成绩 = ? , 总学分 = ? WHERE 学号 = ?";
+		string SQL1 = "UPDATE Students SET 姓名 = ?, 院系 = ? , GPA = ? , 平均学分成绩 = ? , 总学分 = ? WHERE 学号 = ?";
 		QSqlQuery q;
 		q.prepare(SQL1.c_str());
 		q.bindValue(0, x.getName().c_str());
-		q.bindValue(1, x.getGPA());
-		q.bindValue(2, x.getAverageScore());
-		q.bindValue(3, x.getTotalCredit());
-		q.bindValue(4, x.getId());
+		q.bindValue(1, x.getDepartment().c_str());
+		q.bindValue(2, x.getGPA());
+		q.bindValue(3, x.getAverageScore());
+		q.bindValue(4, x.getTotalCredit());
+		q.bindValue(5, x.getId());
 		q.exec();
 		
 		string SQL2 = "DELETE FROM " + x.getName();

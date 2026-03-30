@@ -10,6 +10,14 @@ void ScoreManager::default_Sort()
 		});
 }
 
+void ScoreManager::Sort_by_id()
+{
+	sort(students.begin(), students.end(), [](Student a, Student b) {
+		return a.getId() < b.getId();
+		});
+}
+
+
 void ScoreManager::Sort_by_course(int n)
 {
 	sort(students.begin(), students.end(), [n](Student a, Student b) {

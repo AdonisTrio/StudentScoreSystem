@@ -29,6 +29,9 @@ class MainWindow :public QMainWindow
 private:
 	InitialWidget* ParentWidget;
 	Table* table;
+	bool is_allowed_edited;
+	bool is_sort_changed;
+	int current_sort;
 
 public:
 	typedef MainWindow mw;
@@ -46,6 +49,7 @@ public:
 	void setParent(InitialWidget *parent) { ParentWidget = parent; }
 	bool connect_to_database() { return table->isOpen(); }
 	bool isLocalDatabaseEmpty(QString path);
+	void keep_sort_measure(ScoreManager* );
 	QWidget* searchWidget();
 
 private slots:

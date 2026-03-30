@@ -5,6 +5,9 @@
 
 MainWindow::MainWindow(QWidget* parent) 
 {
+	is_allowed_edited = false;
+	is_sort_changed = false;
+	current_sort = -2;
 	initialize_window();
 }
 
@@ -38,16 +41,46 @@ void MainWindow::menu_bar()
 
 	qa* deletemenu = menuBar->addAction("删除");
 
-
+	//排序栏
 	qm* sortmenu = menuBar->addMenu("排序");
-	qa* sortselection0 = sortmenu->addAction("学号");
+	qa* sortselection1 = sortmenu->addAction("学号");
+	connect(sortselection1, &qa::triggered, this, [=]() {
+		table->id_sort();
+		table->class_to_table(table->get_current_studentlist());
+		is_sort_changed = true;
+		current_sort = -1;
+		});
+
 	vector<Student> s = table->get_saved_studentlist();
 	vector<CourseScore> c = s[0].getCourses();
+	int n = c.size();
+	vector<int> courseCount;
+	for (int i = 0; i < n; i++)
+		courseCount.push_back(i);
+	int j = 0;
 	for (auto& x : c)
 	{
 		qa* sortselection = new qa(QString::fromStdString(x.getCourseName()));
 		sortmenu->addAction(sortselection);
+		connect(sortselection, &qa::triggered, this, [=]() {
+			table->customed_sort(courseCount[j]);
+			table->class_to_table(table->get_current_studentlist()); 
+			current_sort = j;
+			is_sort_changed = true;
+			});
+		j++;
 	}
+
+	qa* sortselection2 = sortmenu->addAction("平均学分成绩");
+	connect(sortselection2, &qa::triggered, this, [=]() {
+		if (is_sort_changed)
+		{
+			table->default_sort();
+			table->class_to_table(table->get_current_studentlist());
+		}
+		current_sort = -2;
+		is_sort_changed = false;
+		});
 
 
 	qa* exportmenu = menuBar->addAction("导出");
@@ -70,6 +103,17 @@ bool MainWindow::isLocalDatabaseEmpty(QString path)
 	menu_bar();
 	return table->isLocalDatabaseEmpty();
 }
+
+void MainWindow::keep_sort_measure(ScoreManager* manager)
+{
+	if (current_sort == -1)
+		manager->Sort_by_id();
+	else if (current_sort == -2)
+		manager->default_Sort();
+	else
+		manager->Sort_by_course(current_sort);
+}
+
 
 
 //创建搜索框
@@ -96,27 +140,42 @@ QWidget*  MainWindow::searchWidget()
 	return searchWidget;
 }
 
-//保存表格内容到数据库，按默认排序方式排序，并设置表格不可修改
+//保存表格内容到数据库，并设置表格不可修改
 void MainWindow::On_save_menu_triggered()
 {
-	table->updateStudent();
-	table->setEditTriggers(QAbstractItemView::NoEditTriggers);
-	menuBar()->clear();
-	menu_bar();
+	if(is_allowed_edited)
+	{
+		table->clearSelection();
+		table->updateStudent();
+		ScoreManager* manager = new ScoreManager(table->get_saved_studentlist());
+		keep_sort_measure(manager);
+		table->class_to_table(manager->getStudents());
+		menuBar()->clear();
+		menu_bar();
+	}
+	is_allowed_edited = false;
 }
 
 
 //使用户可以双击编辑表格内容
 void MainWindow::On_editmenu_triggered()
 {
+	is_allowed_edited = true;
 	table->setEditTriggers(QAbstractItemView::DoubleClicked);
 }
 
 //取消编辑，恢复表格内容为上次保存的状态
 void MainWindow::On_cancelmenu_triggered()
 {
-	table->class_to_table(table->get_saved_studentlist());
-	table->setEditTriggers(QAbstractItemView::NoEditTriggers);
+	if (is_allowed_edited)
+	{
+		table->clearSelection();
+		ScoreManager* manager = new ScoreManager(table->get_saved_studentlist());
+		keep_sort_measure(manager);
+		table->class_to_table(manager->getStudents());
+		table->setEditTriggers(QAbstractItemView::NoEditTriggers);
+	}
+	is_allowed_edited = false;
 }
 
 

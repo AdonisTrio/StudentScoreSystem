@@ -160,7 +160,4 @@ void Table::On_cell_changed(QTableWidgetItem* item)
 			s->updateCourseScore(i, item->text().toDouble());
 		}
 	}
-	manager->default_Sort();
-	class_to_table(manager->getStudents());
-	clearSelection();
 }

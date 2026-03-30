@@ -10,5 +10,6 @@ public:
 	vector<Student>& getStudents() { return students; }
 
 	void default_Sort();
+	void Sort_by_id();
 	void Sort_by_course(int);
 };
