@@ -78,12 +78,12 @@ void Student::calculateTotalCredit()
 
 void Student::calculateAverageScore()
 {
-	double totalScore = 0.0;
 	if(totalCredit == 0)
 	{
 		AverageScore = 0.0;
 		return;
 	}
+	double totalScore = 0.0;
 	vector<CourseScore>::iterator pd = Courses.begin();
 	while(pd != Courses.end())
 	{
@@ -96,6 +96,11 @@ void Student::calculateAverageScore()
 
 void Student::calculateGPA()
 {
+	if (totalCredit == 0)
+	{
+		AverageScore = 0.0;
+		return;
+	}
 	double totalCreditPoint = 0.0;
 	vector<CourseScore>::iterator pd = Courses.begin();
 	while (pd != Courses.end())

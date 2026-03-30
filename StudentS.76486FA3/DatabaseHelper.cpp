@@ -88,7 +88,7 @@ void DatabaseHelper::FillTableCourses(Student LiHua)
 	string  name = LiHua.getName();
 	while (course != courses.end())
 	{
-		string SQL = "INSERT INTO " + name + "` (课程名称, 课程得分, 课程学分, 课程绩点) VALUES ('" +
+		string SQL = "INSERT INTO " + name + " (课程名称, 课程得分, 课程学分, 课程绩点) VALUES ('" +
 			course->getCourseName() + "', ? , ? , ?)";
 		qsq q;
 		q.prepare(SQL.c_str());

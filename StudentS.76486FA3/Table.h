@@ -3,6 +3,7 @@
 
 #include<QTableWidget>
 #include"DatabaseHelper.h"
+#include"ScoreManager.h"
 
 class Table :public QTableWidget
 {
@@ -12,16 +13,16 @@ class Table :public QTableWidget
 
 private:
 	DatabaseHelper* DB;
-	vector<Student> current_students;
+	ScoreManager* manager;
 	bool isRefreshing;   //当正在刷新表格时，禁止触发itemChanged事件
 
 public:
 	Table(QWidget* parent = nullptr) ;
-	~Table() { delete DB; }
+	~Table() { delete DB,manager; }
 
 	vector<Student> get_saved_studentlist() { return DB->get_All_Students(); }
-	vector<Student> get_current_studentlist() { return current_students; }
-	void updateStudent() { DB->update_Student(current_students); }
+	vector<Student> get_current_studentlist() { return manager->getStudents(); }
+	void updateStudent() { DB->update_Student(manager->getStudents()); }
 	void OpenLocalDatabase(QString );
 	bool isOpen() { return DB->isOpen(); }
 	bool isLocalDatabaseEmpty();

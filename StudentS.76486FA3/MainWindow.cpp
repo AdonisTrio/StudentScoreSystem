@@ -1,5 +1,6 @@
 ﻿#include "MainWindow.h"
 #include "InitialWidget.h"
+
 #include<QAbstractItemView>
 
 MainWindow::MainWindow(QWidget* parent) 
@@ -11,8 +12,6 @@ MainWindow::MainWindow(QWidget* parent)
 //初始化子窗口
 void MainWindow::initialize_window()
 {
-	menu_bar();
-
 	//创建表格并设置为中心窗口
 	table = new Table;
 	this->setCentralWidget(table);
@@ -39,7 +38,16 @@ void MainWindow::menu_bar()
 
 	qa* deletemenu = menuBar->addAction("删除");
 
-	qa* sortmenu = menuBar->addAction("排序");
+
+	qm* sortmenu = menuBar->addMenu("排序");
+	qa* sortselection0 = sortmenu->addAction("学号");
+	vector<Student> s = table->get_saved_studentlist();
+	vector<CourseScore> c = s[0].getCourses();
+	for (auto& x : c)
+	{
+		qa* sortselection = new qa(QString::fromStdString(x.getCourseName()));
+		sortmenu->addAction(sortselection);
+	}
 
 
 	qa* exportmenu = menuBar->addAction("导出");
@@ -59,6 +67,7 @@ void MainWindow::menu_bar()
 bool MainWindow::isLocalDatabaseEmpty(QString path)
 {
 	table->OpenLocalDatabase( path);
+	menu_bar();
 	return table->isLocalDatabaseEmpty();
 }
 
@@ -87,7 +96,7 @@ QWidget*  MainWindow::searchWidget()
 	return searchWidget;
 }
 
-//保存表格内容到数据库，并设置表格不可修改
+//保存表格内容到数据库，按默认排序方式排序，并设置表格不可修改
 void MainWindow::On_save_menu_triggered()
 {
 	table->updateStudent();
@@ -105,6 +114,7 @@ void MainWindow::On_editmenu_triggered()
 void MainWindow::On_cancelmenu_triggered()
 {
 	table->class_to_table(table->get_saved_studentlist());
+	table->setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
 
 

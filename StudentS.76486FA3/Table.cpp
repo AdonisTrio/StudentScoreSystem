@@ -3,6 +3,7 @@
 Table::Table(QWidget* parent)
 {
 	DB = nullptr;
+	manager = nullptr;
 	isRefreshing = false;
 }
 
@@ -11,14 +12,17 @@ void Table::OpenLocalDatabase(QString path)
 	DB = new DatabaseHelper;
 	DB->OpenLocalDatabase(path);
 	if (!isLocalDatabaseEmpty())
-		class_to_table(current_students);
+		class_to_table(manager->getStudents());
 	connect(this, &QTableWidget::itemChanged, this, &Table::On_cell_changed);
+
+	//设置表格不可修改，按下菜单栏的编辑按钮后再设置为可修改
+	this->setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
 
 bool Table::isLocalDatabaseEmpty()
 {
-	current_students = DB->get_All_Students();
-	if (current_students.size() == 0)
+	manager =  new ScoreManager(DB->get_All_Students());
+	if (manager->getStudents().size() == 0)
 		return true;
 	return false;
 }
@@ -26,8 +30,6 @@ bool Table::isLocalDatabaseEmpty()
 void Table::class_to_table(vector<Student> students)
 {
 	isRefreshing = true;
-	//设置表格不可修改，按下菜单栏的编辑按钮后再设置为可修改
-	this->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
 	vector<CourseScore> courses = students[0].getCourses();
 	
@@ -136,7 +138,7 @@ void Table::On_cell_changed(QTableWidgetItem* item)
 			QMessageBox::warning(nullptr, "输入错误", "请按「课程名 学分」格式输入");
 			return;
 		}
-		for(auto& x: current_students)
+		for(auto& x: manager->getStudents())
 		{
 			x.getCourses()[i].setCourseName(s[0]);
 			x.updateCourseCredit(i, stod(s[1]));
@@ -144,7 +146,7 @@ void Table::On_cell_changed(QTableWidgetItem* item)
 	}
 	else 
 	{
-		Student *s = &current_students[row - 2];
+		Student *s = &manager->getStudents()[row - 2];
 		switch (col)
 		{
 		case 2:
@@ -158,5 +160,7 @@ void Table::On_cell_changed(QTableWidgetItem* item)
 			s->updateCourseScore(i, item->text().toDouble());
 		}
 	}
-	class_to_table(current_students);
+	manager->default_Sort();
+	class_to_table(manager->getStudents());
+	clearSelection();
 }
