@@ -81,25 +81,33 @@ void InitialWidget::On_bt2_Clicked()
 		QDir::currentPath() + "/CSV/students.csv",
 		"CSV文件 (*.csv)"
 	);
+	QFileInfo info(QDir::cleanPath(path));
+
 	if (!path.isEmpty())
 	{
-		QFileInfo db_name(QDir::cleanPath(path));
-		QString db_path = QDir::currentPath() + "/Database/" + db_name.baseName()+".db";
 		CSV_Helper* csv = new CSV_Helper();
 		csv->import_from_csv(path.toStdString());
 		if (csv->is_imported())
 		{
-		
+			QString newFilePath = QFileDialog::getSaveFileName(
+				this,
+				"选择新建库路径",
+				QDir::currentPath() + "/Database/"+info.baseName()+".db", 
+				// 默认路径为项目文件夹的Database文件夹，名称和csv一致
+				"SQLite数据库 (*.db)"
+			);
+			if (newFilePath.isEmpty())
+				return;
 			MainWindow* sub = new MainWindow(this);
 			sub->setParent(this);
 
 			//建立数据库，将CSV数据写入数据库，并连接数据库和表格
 			DatabaseHelper* db = new DatabaseHelper;
-			db->OpenDatabase(db_path);
+			db->OpenDatabase(newFilePath);
 			db->CreateTableStudents();
 			db->FillTableStudents(csv->get_students());	
 			sub->connect_table_and_db(db);
-			sub->initable(csv->get_students());
+			sub->initable();
 			this->hide();
 			sub->show();
 			delete csv,db;

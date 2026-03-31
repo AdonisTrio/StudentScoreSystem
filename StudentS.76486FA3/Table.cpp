@@ -5,6 +5,9 @@ Table::Table(QWidget* parent)
 	DB = nullptr;
 	manager = nullptr;
 	isRefreshing = false;
+	
+	//设置表格不可修改，按下菜单栏的编辑按钮后再设置为可修改
+	setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
 
 void Table::OpenLocalDatabase(QString path)
@@ -12,11 +15,11 @@ void Table::OpenLocalDatabase(QString path)
 	DB = new DatabaseHelper;
 	DB->OpenDatabase(path);
 	if (!isLocalDatabaseEmpty())
+	{
+		manager->default_Sort();
 		class_to_table(manager->getStudents());
+	}
 	connect(this, &QTableWidget::itemChanged, this, &Table::On_cell_changed);
-
-	//设置表格不可修改，按下菜单栏的编辑按钮后再设置为可修改
-	this->setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
 
 bool Table::isLocalDatabaseEmpty()
@@ -90,11 +93,12 @@ void Table::class_to_table(vector<Student> students)
 	isRefreshing = false;
 }
 
-
-void Table::initialize_table(vector<Student> s)
+//导入csv时初始化表格
+void Table::initialize_table()
 {
-	manager = new ScoreManager(s);
-	class_to_table(s);
+	manager = new ScoreManager(DB->get_All_Students());
+	manager->default_Sort();
+	class_to_table(manager->getStudents());
 }
 
 QTableWidgetItem* Table::StrItem(string x)

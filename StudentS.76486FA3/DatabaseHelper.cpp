@@ -65,7 +65,7 @@ void DatabaseHelper::getCourseScores( Student& LiHua)
 vector<Student> DatabaseHelper::get_All_Students()
 {
 	vector<Student> students;
-	const char* SQL = "SELECT * FROM Students ORDER BY 平均学分成绩 DESC, 学号 ASC ";
+	const char* SQL = "SELECT * FROM Students";
 	QSqlQuery q;
 	q.exec(SQL);
 	while (q.next())

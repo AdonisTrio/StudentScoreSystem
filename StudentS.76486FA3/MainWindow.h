@@ -6,7 +6,7 @@
 #include<QLabel>
 #include<QLineEdit>
 #include<QFileDialog>
-#include<qfileinfo.h>
+#include<QFileInfo>
 #include<QHBoxLayout>
 #include<QGuiApplication>
 #include<QPushButton>
@@ -50,7 +50,7 @@ public:
 	void setParent(InitialWidget *parent) { ParentWidget = parent; }
 	bool connect_to_database() { return table->isOpen(); }
 	bool isLocalDatabaseEmpty(QString path);
-	void initable(vector<Student> s) { menu_bar(); table->initialize_table(s); }
+	void initable() { menu_bar(); table->initialize_table(); }
 	void connect_table_and_db(DatabaseHelper* db) { table->connect_db(db); }
 	void keep_sort_measure();
 	QWidget* searchWidget();
