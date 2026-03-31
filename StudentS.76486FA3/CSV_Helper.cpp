@@ -41,3 +41,97 @@ string CSV_Helper::WriteTableHeader( )
 	header += ",,,\n";
 	return header;
 }
+
+vector<Student> CSV_Helper::import_from_csv(const string& path)
+{
+	ifstream file(path);
+	if (!file.is_open())
+	{
+		QMessageBox::critical(nullptr, " ", "无法打开文件！\n");
+		return;
+	}
+
+	string header;
+	if (!getline(file, header))
+	{
+		QMessageBox::critical(nullptr, " ", "文件为空或缺少表头！\n");
+		return;
+	}
+
+	// 去除 UTF-8 BOM（如果存在）
+	if (header.size() >= 3 && header[0] == (char)0xEF && header[1] == (char)0xBB && header[2] == (char)0xBF) 
+	{
+		header = header.substr(3);
+	}
+
+	// 读取第二行（我们不需要解析内容，但需要读取以跳过）
+	string line2;
+	if (!getline(file, line2)) 
+	{
+		QMessageBox::critical(nullptr, "", "缺少第二行！");
+		return;
+	}
+
+	// 解析表头，提取出课程名和学分
+	vector<pair<string, double>> courseInfo;
+	stringstream ss1(header); // 把表头字符串放入一个字符串流中，方便随后依次读取
+	string cell;
+	// 跳过前三个固定字段：姓名,院系,学号
+	getline(ss1, cell, ',');
+	getline(ss1, cell, ',');
+	getline(ss1, cell, ',');
+	while (getline(ss1, cell, ','))
+	{
+		string courseName = cell;
+		if (!getline(ss1, cell, ',')) break;
+		double credit = stod(cell); // 字符串转换为double
+		courseInfo.emplace_back(courseName, credit);
+	}
+
+	vector<Student> students;
+
+	string line;
+	while (getline(file, line))
+	{
+		if (line.empty()) continue;
+
+		vector<string> stuInfo;
+		stringstream ss(line);
+		string each_stuInfo;
+		while (getline(ss, each_stuInfo, ','))
+		{
+			stuInfo.push_back(each_stuInfo);
+		}
+
+		string name = stuInfo[0];
+		string dept = stuInfo[1];
+		int id = stoi(stuInfo[2]); // 字符串转换为int
+
+		vector<CourseScore> courses;
+		int i = 3; // 从第4个字段开始是课程得分和绩点
+		for (int j = 0; j < courseInfo.size(); j++)
+		{
+			double score = stod(stuInfo[i]);
+			double creditPoint = stod(stuInfo[i + 1]);
+
+			CourseScore cs(courseInfo[j].first, score, courseInfo[j].second, creditPoint);
+			courses.push_back(cs);
+			i += 2;
+		}
+
+		Student stu(name, dept, id);
+
+		for (auto& c : courses)
+		{
+			stu.updateCourses(c);
+		}
+		stu.calculateAverageScore();
+		stu.calculateGPA();
+		stu.calculateTotalCredit();
+
+		students.push_back(stu);
+	}
+
+	file.close();
+	return students;
+}
