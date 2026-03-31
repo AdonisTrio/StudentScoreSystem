@@ -14,7 +14,7 @@ void CSV_Helper::export_to_csv(string path)
 	
 	file << WriteTableHeader();
 	
-	for (auto x : students)
+	for (auto &x : students)
 	{
 		
 		file << x.getName() << "," << x.getDepartment() << "," << x.getId();

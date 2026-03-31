@@ -45,12 +45,10 @@ void MainWindow::menu_bar()
 	qm* sortmenu = menuBar->addMenu("排序");
 	qa* sortselection1 = sortmenu->addAction("学号");
 	connect(sortselection1, &qa::triggered, this, [=]() {
-		table->id_sort();
-		table->class_to_table(table->get_current_studentlist());
 		is_sort_changed = true;
 		current_sort = -1;
+		keep_sort_measure();
 		});
-
 	vector<Student> s = table->get_saved_studentlist();
 	vector<CourseScore> c = s[0].getCourses();
 	int n = c.size();
@@ -63,23 +61,20 @@ void MainWindow::menu_bar()
 		qa* sortselection = new qa(QString::fromStdString(x.getCourseName()));
 		sortmenu->addAction(sortselection);
 		connect(sortselection, &qa::triggered, this, [=]() {
-			table->customed_sort(courseCount[j]);
-			table->class_to_table(table->get_current_studentlist()); 
 			current_sort = j;
 			is_sort_changed = true;
+			keep_sort_measure();
 			});
 		j++;
 	}
-
 	qa* sortselection2 = sortmenu->addAction("平均学分成绩");
 	connect(sortselection2, &qa::triggered, this, [=]() {
 		if (is_sort_changed)
 		{
-			table->default_sort();
-			table->class_to_table(table->get_current_studentlist());
+			current_sort = -2;
+			is_sort_changed = false;
+			keep_sort_measure();
 		}
-		current_sort = -2;
-		is_sort_changed = false;
 		});
 
 
@@ -104,16 +99,18 @@ bool MainWindow::isLocalDatabaseEmpty(QString path)
 	return table->isLocalDatabaseEmpty();
 }
 
-void MainWindow::keep_sort_measure(ScoreManager* manager)
+
+//根据当前排序方式对学生列表进行排序，以保持表格内容的排序状态不变
+void MainWindow::keep_sort_measure()
 {
 	if (current_sort == -1)
-		manager->Sort_by_id();
+		table->id_sort();
 	else if (current_sort == -2)
-		manager->default_Sort();
+		table->default_sort();
 	else
-		manager->Sort_by_course(current_sort);
+		table->customed_sort(current_sort);
+	table->class_to_table(table->get_current_studentlist());
 }
-
 
 
 //创建搜索框
@@ -147,13 +144,12 @@ void MainWindow::On_save_menu_triggered()
 	{
 		table->clearSelection();
 		table->updateStudent();
-		ScoreManager* manager = new ScoreManager(table->get_saved_studentlist());
-		keep_sort_measure(manager);
-		table->class_to_table(manager->getStudents());
+		keep_sort_measure();
 		menuBar()->clear();
 		menu_bar();
+		table->setEditTriggers(QAbstractItemView::NoEditTriggers);
+		is_allowed_edited = false;
 	}
-	is_allowed_edited = false;
 }
 
 
@@ -170,18 +166,18 @@ void MainWindow::On_cancelmenu_triggered()
 	if (is_allowed_edited)
 	{
 		table->clearSelection();
-		ScoreManager* manager = new ScoreManager(table->get_saved_studentlist());
-		keep_sort_measure(manager);
-		table->class_to_table(manager->getStudents());
+		table->reset();
+		keep_sort_measure();
 		table->setEditTriggers(QAbstractItemView::NoEditTriggers);
+		is_allowed_edited = false;
 	}
-	is_allowed_edited = false;
 }
 
 
+//导出当前表格内容到CSV文件，弹出文件保存对话框让用户选择保存位置和文件名，且导出后排序与用户当前看到的表格内容一致
 void MainWindow::On_exportmenu_triggered()
 {
-	CSV_Helper* csv = new CSV_Helper(table->get_saved_studentlist());
+	CSV_Helper* csv = new CSV_Helper(table->get_current_studentlist());
 	QString newFilePath = QFileDialog::getSaveFileName(
 		this,
 		"导出为CSV",

@@ -31,6 +31,7 @@ public:
 	void customed_sort(int n) { manager->Sort_by_course(n); }
 	void default_sort() { manager->default_Sort(); }
 	void id_sort() { manager->Sort_by_id(); }
+	void reset() { delete manager; manager = new ScoreManager(DB->get_All_Students()); }
 	qtwi* StrItem(string x);
 	qtwi* fixed_StrItem(string x);
 

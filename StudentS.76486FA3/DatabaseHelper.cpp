@@ -102,6 +102,8 @@ void DatabaseHelper::FillTableCourses(Student LiHua)
 
 void DatabaseHelper::FillTableStudents(vector<Student> students)
 {
+	if (students.size() == 0)
+		return;
 	vector<Student>::iterator student = students.begin();
 	while (student != students.end())
 	{
@@ -123,6 +125,8 @@ void DatabaseHelper::FillTableStudents(vector<Student> students)
 
 void DatabaseHelper::update_Student(vector<Student> students)
 {
+	if(students.size() == 0)
+		return;
 	for (auto x : students)
 	{
 		string SQL1 = "UPDATE Students SET 姓名 = ?, 院系 = ? , GPA = ? , 平均学分成绩 = ? , 总学分 = ? WHERE 学号 = ?";

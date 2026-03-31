@@ -16,7 +16,6 @@
 #include<QWidgetAction>
 #include <QScreen>
 #include<QMessageBox>
-#include"DatabaseHelper.h"
 #include "Table.h"
 #include"CSV_Helper.h"
 
@@ -49,7 +48,7 @@ public:
 	void setParent(InitialWidget *parent) { ParentWidget = parent; }
 	bool connect_to_database() { return table->isOpen(); }
 	bool isLocalDatabaseEmpty(QString path);
-	void keep_sort_measure(ScoreManager* );
+	void keep_sort_measure();
 	QWidget* searchWidget();
 
 private slots:
