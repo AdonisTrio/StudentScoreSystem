@@ -10,7 +10,7 @@ Table::Table(QWidget* parent)
 void Table::OpenLocalDatabase(QString path)
 {
 	DB = new DatabaseHelper;
-	DB->OpenLocalDatabase(path);
+	DB->OpenDatabase(path);
 	if (!isLocalDatabaseEmpty())
 		class_to_table(manager->getStudents());
 	connect(this, &QTableWidget::itemChanged, this, &Table::On_cell_changed);
@@ -90,6 +90,12 @@ void Table::class_to_table(vector<Student> students)
 	isRefreshing = false;
 }
 
+
+void Table::initialize_table(vector<Student> s)
+{
+	manager = new ScoreManager(s);
+	class_to_table(s);
+}
 
 QTableWidgetItem* Table::StrItem(string x)
 {

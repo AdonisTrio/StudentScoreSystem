@@ -7,14 +7,19 @@
 class CSV_Helper
 {
 	vector<Student> students;
+	bool imported = false;
 
 public:
-	CSV_Helper() = default;
-	CSV_Helper(vector<Student> s) :students(s) {};
+
+	CSV_Helper() {}
+	CSV_Helper(vector<Student> s) :students(s) {}
 
 	void export_to_csv(string path);
 	string WriteTableHeader();
 
-	vector<Student> import_from_csv(const string& path);
+	void import_from_csv(const string& path);
+
+	vector<Student>& get_students() { return students; }
+	bool is_imported() { return imported; }
 };
 

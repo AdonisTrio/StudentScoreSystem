@@ -11,12 +11,15 @@ vector<string> DatabaseHelper::split(const string& s, char delimiter)
 	vector<string> tokens;
 	string token;
 	istringstream tokenStream(s);
-	while (getline(tokenStream, token, delimiter))
+	//getline函数从tokenStream中读取数据，直到遇到delimiter为止，并将读取到的数据存储在token中
+	//下一次调用getline时会继续从tokenStream中读取数据，直到再次遇到delimiter为止
+	//getline的返回值是tokenStream的引用，转换为bool类型时会调用tokenStream的operator bool()，当tokenStream处于有效状态时返回true，否则返回false
+	while (getline(tokenStream, token, delimiter))	
 		tokens.push_back(token);
 	return tokens;
 }
 
-void DatabaseHelper::OpenLocalDatabase(QString path)
+void DatabaseHelper::OpenDatabase(QString path)
 {
 	db = QSqlDatabase::addDatabase("QSQLITE");
 	db.setDatabaseName(path);

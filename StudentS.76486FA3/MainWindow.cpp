@@ -16,6 +16,14 @@ MainWindow::MainWindow(QWidget* parent)
 void MainWindow::initialize_window()
 {
 	//创建表格并设置为中心窗口
+	setWindowTitle("NJUST学生成绩管理系统");
+
+	QScreen* myDesktop = QGuiApplication::primaryScreen();
+	QRect myWholeDesktop = myDesktop->geometry();
+	QRect myAvailableDesktop = myDesktop->availableGeometry();
+	resize(myWholeDesktop.width() * 0.85, myWholeDesktop.height() * 0.85);
+	move((myWholeDesktop.width() - width()) / 2, (myWholeDesktop.height() - height()) * 0.8 / 2);
+
 	table = new Table;
 	this->setCentralWidget(table);
 

@@ -9,11 +9,6 @@ class InitialWidget :public QWidget
 {
 	Q_OBJECT;
 
-private:
-	QScreen* myDesktop = QGuiApplication::primaryScreen();
-	QRect myWholeDesktop = myDesktop->geometry();
-	QRect myAvailableDesktop = myDesktop->availableGeometry();
-
 public:
 	typedef InitialWidget iw;
 	typedef QPushButton bt;
@@ -27,6 +22,7 @@ public:
 
 private slots:
 	void On_bt1_Clicked();
+	void On_bt2_Clicked();
 };
 
 #endif

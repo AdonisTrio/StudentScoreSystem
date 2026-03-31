@@ -8,12 +8,16 @@ InitialWidget::InitialWidget(QWidget* parent)
 void InitialWidget::initialize_widget()
 {
 	this->setWindowTitle("NJUST学生成绩管理系统");
+
+	QScreen* myDesktop = QGuiApplication::primaryScreen();
+	QRect myAvailableDesktop = myDesktop->availableGeometry();
 	this->setGeometry((myAvailableDesktop.width() - this->width()) / 2, (myAvailableDesktop.height() - this->height()) / 2, 500, 400);
 
 	//按钮
 	bt* b1 = new bt("打开本地数据库", this);
 	connect(b1,& bt::clicked, this, & InitialWidget::On_bt1_Clicked);
-	bt* b2 = new bt("导入外部CSV文件", this);
+	bt* b2 = new bt("导入CSV文件建库", this);
+	connect(b2, &bt::clicked, this, &InitialWidget::On_bt2_Clicked);
 	b1->setFont(QFont("SimSun", 15));
 	b2->setFont(QFont("SimSun", 15));
 	b1->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -43,9 +47,6 @@ void InitialWidget::On_bt1_Clicked()
 {
 	MainWindow* sub = new MainWindow(this);
 	sub->setParent(this);
-	sub->setWindowTitle("NJUST学生成绩管理系统");
-	sub->resize(myWholeDesktop.width() * 0.85, myWholeDesktop.height() * 0.85);
-	sub->move((myWholeDesktop.width() - sub->width()) / 2, (myWholeDesktop.height() - sub->height()) * 0.8 / 2);
 	try
 	{
 		QString path = QFileDialog::getOpenFileName(
@@ -69,5 +70,39 @@ void InitialWidget::On_bt1_Clicked()
 	catch (const char* msg)
 	{
 		QMessageBox::critical(this, " ", msg);
+	}
+}
+
+void InitialWidget::On_bt2_Clicked()
+{
+	QString path = QFileDialog::getOpenFileName(
+		this,
+		"导入CSV文件",
+		QDir::currentPath() + "/CSV/students.csv",
+		"CSV文件 (*.csv)"
+	);
+	if (!path.isEmpty())
+	{
+		QFileInfo db_name(QDir::cleanPath(path));
+		QString db_path = QDir::currentPath() + "/Database/" + db_name.baseName()+".db";
+		CSV_Helper* csv = new CSV_Helper();
+		csv->import_from_csv(path.toStdString());
+		if (csv->is_imported())
+		{
+		
+			MainWindow* sub = new MainWindow(this);
+			sub->setParent(this);
+
+			//建立数据库，将CSV数据写入数据库，并连接数据库和表格
+			DatabaseHelper* db = new DatabaseHelper;
+			db->OpenDatabase(db_path);
+			db->CreateTableStudents();
+			db->FillTableStudents(csv->get_students());	
+			sub->connect_table_and_db(db);
+			sub->initable(csv->get_students());
+			this->hide();
+			sub->show();
+			delete csv,db;
+		}
 	}
 }

@@ -42,7 +42,7 @@ string CSV_Helper::WriteTableHeader( )
 	return header;
 }
 
-vector<Student> CSV_Helper::import_from_csv(const string& path)
+void CSV_Helper::import_from_csv(const string& path)
 {
 	ifstream file(path);
 	if (!file.is_open())
@@ -52,7 +52,7 @@ vector<Student> CSV_Helper::import_from_csv(const string& path)
 	}
 
 	string header;
-	if (!getline(file, header))
+	if (!getline(file, header)) //此处getline调用省略了默认参数，默认以换行符为分隔符
 	{
 		QMessageBox::critical(nullptr, " ", "文件为空或缺少表头！\n");
 		return;
@@ -80,15 +80,18 @@ vector<Student> CSV_Helper::import_from_csv(const string& path)
 	getline(ss1, cell, ',');
 	getline(ss1, cell, ',');
 	getline(ss1, cell, ',');
-	while (getline(ss1, cell, ','))
+	vector<string> info;
+	while(getline(ss1, cell, ','))
+		info.push_back(cell);
+	for (int i = 0; i<info.size()-3 ; i+=2 )
 	{
-		string courseName = cell;
-		if (!getline(ss1, cell, ',')) break;
-		double credit = stod(cell); // 字符串转换为double
+		string courseName = info[i];
+		double credit = stod(info[i+1]); // 字符串转换为double
 		courseInfo.emplace_back(courseName, credit);
+		//此处用emplace_back而不是push_back是因为我们直接传入了构造函数的参数，而不是一个pair类的对象
+		//如果用push_back就需要先创建一个pair对象，再将其传入push_back，而emplace_back则直接在容器中构造对象，避免了不必要的复制和移动操作，提高了效率
+		//其他位置使用push_back也是因为我们已经有了一个完整的对象，而不是需要传入构造函数参数的情况，所以直接使用push_back即可
 	}
-
-	vector<Student> students;
 
 	string line;
 	while (getline(file, line))
@@ -133,5 +136,5 @@ vector<Student> CSV_Helper::import_from_csv(const string& path)
 	}
 
 	file.close();
-	return students;
+	imported = true;
 }

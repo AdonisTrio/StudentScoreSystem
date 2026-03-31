@@ -32,6 +32,8 @@ public:
 	void default_sort() { manager->default_Sort(); }
 	void id_sort() { manager->Sort_by_id(); }
 	void reset() { delete manager; manager = new ScoreManager(DB->get_All_Students()); }
+	void initialize_table(vector<Student>);
+	void connect_db(DatabaseHelper* db) { DB = db; }
 	qtwi* StrItem(string x);
 	qtwi* fixed_StrItem(string x);
 

@@ -15,7 +15,7 @@ public:
 
 	vector<string> split(const string& s, char delimiter);
 
-	void OpenLocalDatabase( QString );
+	void OpenDatabase( QString );
 
 	void CreateTableStudents();
 	//创建学生表，表中包含姓名、院系、学号、GPA、平均学分成绩、总学分六个字段
