@@ -187,3 +187,80 @@ void Table::On_cell_changed(QTableWidgetItem* item)
 		}
 	}
 }
+
+void Table::addEmptyStudent()
+{
+	vector<Student> students = manager->getStudents(); // 检查现有学生,以便获取课程模板
+	if (students.empty()) 
+	{
+		QMessageBox::warning(nullptr, "", "当前没有学生，无法添加！请先导入数据。");
+		return;
+	}
+
+	vector<CourseScore> Courses = students[0].getCourses();
+
+	Student newStudent;
+	for (auto& c : Courses) 
+	{
+		CourseScore cs(c.getCourseName(), 0.0, c.getCredit(), 0.0);
+		newStudent.updateCourses(cs);
+	}
+	newStudent.calculateTotalCredit();
+	newStudent.calculateAverageScore();
+	newStudent.calculateGPA();
+
+	DB->addStudent(newStudent);
+
+	reset();
+	default_sort();
+	class_to_table(manager->getStudents());
+}
+
+void Table::deleteSelectedStudent()
+{
+	
+	/*
+	获取当前表格中所有被选中的单元格（QTableWidgetItem 对象指针）
+	QList 是 Qt 提供的动态数组，类似于 C++ 标准库的 vector，用于存储多个元素
+	QTableWidgetItem* 是指向 QTableWidgetItem 对象的指针，每个这样的对象代表表格中的一个单元格
+	selectedItems() 是 QTableWidget 的成员函数，返回当前被选中的单元格指针列表
+	如果没有任何单元格被选中，返回的列表为空
+	*/
+	QList<QTableWidgetItem*> selected = this->selectedItems();
+
+	if (selected.isEmpty()) 
+	{
+		QMessageBox::warning(nullptr, "", "请先选中要删除的学生行！");
+		return;
+	}
+
+	int row = selected.first()->row();
+	if (row < 2) 
+	{   // 前两行是表头
+		QMessageBox::warning(nullptr, "", "不能删除表头！");
+		return;
+	}
+
+	// 获取该行对应的学生对象
+	vector<Student> students = manager->getStudents();
+	Student& stu = students[row - 2];
+	int id = stu.getId();
+	QString name = QString::fromStdString(stu.getName());
+
+	if (students.size() == 1) 
+	{
+		QMessageBox::warning(nullptr, "", "至少需要保留一个学生！");
+		return;
+	}
+
+	int ret = QMessageBox::question(nullptr, "",
+		QString("确定要删除学生 %1（学号 %2）吗？").arg(name).arg(id),
+		QMessageBox::Yes | QMessageBox::No);
+	if (ret != QMessageBox::Yes) return;
+
+	DB->deleteStudent(id);
+
+	reset();
+	default_sort();
+	class_to_table(manager->getStudents());
+}

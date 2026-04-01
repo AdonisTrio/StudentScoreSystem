@@ -39,6 +39,9 @@ public:
 	qtwi* fixed_StrItem(string x);
 	qtwi* fixed_NumItem(int x);
 
+	void addEmptyStudent();
+	void deleteSelectedStudent();
+
 private slots:
 	void On_cell_changed(QTableWidgetItem* item);
 

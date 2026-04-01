@@ -47,16 +47,29 @@ void MainWindow::menu_bar()
 	qa* cancelmenu = menuBar->addAction("取消");
 	connect(cancelmenu, &qa::triggered, this, &MainWindow::On_cancelmenu_triggered);
 
+	//添加栏
+	qa* addmenu = menuBar->addAction("添加");
+	connect(addmenu, &qa::triggered, this, [=]() 
+	{ 
+		table->addEmptyStudent(); 
+	});
+	
+	//删除栏
 	qa* deletemenu = menuBar->addAction("删除");
+	connect(deletemenu, &qa::triggered, this, [=]() 
+	{ 
+		table->deleteSelectedStudent(); 
+	});
 
 	//排序栏
 	qm* sortmenu = menuBar->addMenu("排序");
 	qa* sortselection1 = sortmenu->addAction("学号");
-	connect(sortselection1, &qa::triggered, this, [=]() {
+	connect(sortselection1, &qa::triggered, this, [=]() 
+	{
 		is_sort_changed = true;
 		current_sort = -1;
 		keep_sort_measure();
-		});
+	});
 	vector<Student> s = table->get_saved_studentlist();
 	vector<CourseScore> c = s[0].getCourses();
 	int n = c.size();
@@ -68,22 +81,24 @@ void MainWindow::menu_bar()
 	{
 		qa* sortselection = new qa(QString::fromStdString(x.getCourseName()));
 		sortmenu->addAction(sortselection);
-		connect(sortselection, &qa::triggered, this, [=]() {
+		connect(sortselection, &qa::triggered, this, [=]() 
+		{
 			current_sort = j;
 			is_sort_changed = true;
 			keep_sort_measure();
-			});
+		});
 		j++;
 	}
 	qa* sortselection2 = sortmenu->addAction("平均学分成绩");
-	connect(sortselection2, &qa::triggered, this, [=]() {
+	connect(sortselection2, &qa::triggered, this, [=]() 
+	{
 		if (is_sort_changed)
 		{
 			current_sort = -2;
 			is_sort_changed = false;
 			keep_sort_measure();
 		}
-		});
+	});
 
 
 	qa* exportmenu = menuBar->addAction("导出");

@@ -145,7 +145,7 @@ void DatabaseHelper::update_Student(vector<Student> students)
 		q.bindValue(4, x.getTotalCredit());
 		q.bindValue(5, x.getId());
 		if (!q.exec()) {
-			QMessageBox::critical(nullptr, "保存错误", "更新学生信息失败：\n" + q.lastError().text());
+			QMessageBox::critical(nullptr, "", "更新学生信息失败：\n" + q.lastError().text());
 			return; 
 		}
 		
@@ -155,10 +155,34 @@ void DatabaseHelper::update_Student(vector<Student> students)
 		
 		QSqlQuery q1;
 		if (!q1.exec(SQL2.c_str())) {
-			QMessageBox::critical(nullptr, "保存错误", "清空课程成绩失败：\n" + q.lastError().text());
+			QMessageBox::critical(nullptr, "", "清空课程成绩失败：\n" + q.lastError().text());
 			return;
 		}
 		FillTableCourses(x);
 	}
 }
 
+void DatabaseHelper::addStudent(Student& stu)
+{
+	vector<Student> vec;
+	vec.push_back(stu);
+	FillTableStudents(vec);
+}
+
+void DatabaseHelper::deleteStudent(int id)
+{
+	QSqlQuery q;
+	string SQL1 = "DROP TABLE IF EXISTS \"" + to_string(id) + "\"";
+	if (!q.exec(SQL1.c_str())) 
+	{
+		QMessageBox::critical(nullptr, "", "删除课程表失败：" + q.lastError().text());
+		return;
+	}
+
+	string SQL2 = "DELETE FROM Students WHERE 学号 = \"" + to_string(id) + "\"";
+	if (!q.exec(SQL2.c_str())) 
+	{
+		QMessageBox::critical(nullptr, "", "删除学生记录失败：" + q.lastError().text());
+		return;
+	}
+}

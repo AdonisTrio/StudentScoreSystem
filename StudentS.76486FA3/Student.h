@@ -16,7 +16,7 @@ class Student
 	double AverageScore;           //学生的平均学分成绩
 	double totalCredit;			   //学生的总学分
 public:
-	Student(string name = " ", string dept = " ", int studentId = 0);
+	Student(string name = "", string dept = "", int studentId = 0);
 
 	//Getters:
 	string getName() { return SName; }
