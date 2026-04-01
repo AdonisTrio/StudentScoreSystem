@@ -24,23 +24,20 @@ public:
 	vector<Student> get_current_studentlist() { return manager->getStudents(); }
 
 	void updateStudent() { DB->update_Student(manager->getStudents()); }
-	void OpenLocalDatabase(QString );
-	bool isOpen() { return DB->isOpen(); }
-	bool isLocalDatabaseEmpty();
 	void class_to_table(vector<Student>);
+
+
 	void customed_sort(int n) { manager->Sort_by_course(n); }
 	void default_sort() { manager->default_Sort(); }
 	void id_sort() { manager->Sort_by_id(); }
+
+
 	void reset() { delete manager; manager = new ScoreManager(DB->get_All_Students()); }
 	void initialize_table();
 	void connect_db(DatabaseHelper* db) { DB = db; }
 	qtwi* StrItem(string x);
 	qtwi* fixed_StrItem(string x);
-
-	template<typename T>
-	qtwi* NumItem(T x);
-	template<typename T>
-	qtwi* fixed_NumItem(T x);
+	qtwi* fixed_NumItem(int x);
 
 private slots:
 	void On_cell_changed(QTableWidgetItem* item);

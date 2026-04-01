@@ -36,8 +36,8 @@ void DatabaseHelper::CreateTableStudents()
 
 void DatabaseHelper::CreateTableCourses(Student LiHua)
 {
-	string  name = LiHua.getName();
-	string SQL = "CREATE TABLE IF NOT EXISTS " + name + " ( 课程名称 TEXT PRIMARY KEY, 课程得分 REAL, 课程学分 REAL, 课程绩点 REAL)";
+	string  id = to_string(LiHua.getId());	
+	string SQL = "CREATE TABLE IF NOT EXISTS \"" + id + "\" ( 课程名称 TEXT PRIMARY KEY, 课程得分 REAL, 课程学分 REAL, 课程绩点 REAL)";
 	QSqlQuery q;
 	if (!q.exec(SQL.c_str()))
 		QMessageBox::critical(nullptr, " ", "创建课程成绩表失败！\n" + q.lastError().text());
@@ -45,8 +45,8 @@ void DatabaseHelper::CreateTableCourses(Student LiHua)
 
 void DatabaseHelper::getCourseScores( Student& LiHua)
 {
-	string  name = LiHua.getName();
-	string SQL = "SELECT * FROM " + name;
+	string  id = to_string(LiHua.getId());
+	string SQL = "SELECT * FROM \"" + id + "\"";
 	QSqlQuery q;
 	q.exec(SQL.c_str());
 	while (q.next())
@@ -88,17 +88,20 @@ void DatabaseHelper::FillTableCourses(Student LiHua)
 {
 	vector<CourseScore> courses = LiHua.getCourses();
 	vector<CourseScore>::iterator course = courses.begin();
-	string  name = LiHua.getName();
+	string  id = to_string(LiHua.getId());
 	while (course != courses.end())
 	{
-		string SQL = "INSERT INTO " + name + " (课程名称, 课程得分, 课程学分, 课程绩点) VALUES ('" +
+		string SQL = "INSERT INTO \"" + id + "\" (课程名称, 课程得分, 课程学分, 课程绩点) VALUES ('" +
 			course->getCourseName() + "', ? , ? , ?)";
 		QSqlQuery q;
 		q.prepare(SQL.c_str());
 		q.bindValue(0, course->getScore());
 		q.bindValue(1, course->getCredit());
 		q.bindValue(2, course->getCreditPoint());
-		q.exec();
+		if (!q.exec()) {
+			QMessageBox::critical(nullptr, "保存错误", "更新课程失败：\n" + q.lastError().text());
+			return;
+		}
 		course++;
 	}
 }
@@ -141,10 +144,20 @@ void DatabaseHelper::update_Student(vector<Student> students)
 		q.bindValue(3, x.getAverageScore());
 		q.bindValue(4, x.getTotalCredit());
 		q.bindValue(5, x.getId());
-		q.exec();
+		if (!q.exec()) {
+			QMessageBox::critical(nullptr, "保存错误", "更新学生信息失败：\n" + q.lastError().text());
+			return; 
+		}
 		
-		string SQL2 = "DELETE FROM " + x.getName();
-		q.exec(SQL2.c_str());
+		string  id = to_string(x.getId());
+		string SQL2 = "DELETE FROM \"" + id + "\""; 
+		//delete仅删除表中的数据，不删除表结构，因此可以直接调用FillTableCourses函数将更新后的课程成绩数据填充到数据库中对应学生的课程成绩表中
+		
+		QSqlQuery q1;
+		if (!q1.exec(SQL2.c_str())) {
+			QMessageBox::critical(nullptr, "保存错误", "清空课程成绩失败：\n" + q.lastError().text());
+			return;
+		}
 		FillTableCourses(x);
 	}
 }

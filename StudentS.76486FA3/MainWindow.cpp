@@ -99,14 +99,6 @@ void MainWindow::menu_bar()
 }
 
 
-//打开并检查数据库是否为空
-bool MainWindow::isLocalDatabaseEmpty(QString path)
-{
-	table->OpenLocalDatabase( path);
-	menu_bar();
-	return table->isLocalDatabaseEmpty();
-}
-
 
 //根据当前排序方式对学生列表进行排序，以保持表格内容的排序状态不变
 void MainWindow::keep_sort_measure()
@@ -186,15 +178,28 @@ void MainWindow::On_cancelmenu_triggered()
 void MainWindow::On_exportmenu_triggered()
 {
 	CSV_Helper* csv = new CSV_Helper(table->get_current_studentlist());
-	QString newFilePath = QFileDialog::getSaveFileName(
-		this,
-		"导出为CSV",
-		QDir::currentPath() + "/CSV/students.csv", // 默认路径+文件名
-		"CSV文件 (*.csv)"
-	);
-	if (!newFilePath.isEmpty())
+	QString newFilePath;
+	while(true)
 	{
+		newFilePath = QFileDialog::getSaveFileName(
+			this,
+			"导出为CSV",
+			QDir::currentPath() + "/CSV/students.csv", // 默认路径+文件名
+			"CSV文件 (*.csv)"
+		);
+		if (newFilePath.isEmpty())
+			return;
+		QFileInfo info(newFilePath);
+		if (info.exists() && info.isFile()) {
+			// 已存在：提示并重新循环选择
+			QMessageBox::warning(
+				this, "路径已存在",
+				"文件已存在，请输入其他文件名或选择其他路径！"
+			);
+			continue;
+		}
 		csv->export_to_csv(newFilePath.toStdString());
+		break;
 	}
 	delete csv;
 }

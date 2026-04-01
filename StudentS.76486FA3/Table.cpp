@@ -10,25 +10,6 @@ Table::Table(QWidget* parent)
 	setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
 
-void Table::OpenLocalDatabase(QString path)
-{
-	DB = new DatabaseHelper;
-	DB->OpenDatabase(path);
-	if (!isLocalDatabaseEmpty())
-	{
-		manager->default_Sort();
-		class_to_table(manager->getStudents());
-	}
-	connect(this, &QTableWidget::itemChanged, this, &Table::On_cell_changed);
-}
-
-bool Table::isLocalDatabaseEmpty()
-{
-	manager =  new ScoreManager(DB->get_All_Students());
-	if (manager->getStudents().size() == 0)
-		return true;
-	return false;
-}
 
 void Table::class_to_table(vector<Student> students)
 {
@@ -75,15 +56,15 @@ void Table::class_to_table(vector<Student> students)
 		this->setItem(row, 1, fixed_NumItem(it->getId()));
 		this->setItem(row, 2, StrItem(it->getName()));
 		this->setItem(row, 3, StrItem(it->getDepartment()));
-		this->setItem(row, columnCount - 3, fixed_NumItem(it->getGPA()));
-		this->setItem(row, columnCount - 2, fixed_NumItem(it->getAverageScore()));
-		this->setItem(row, columnCount - 1, fixed_NumItem(it->getTotalCredit()));
+		this->setItem(row, columnCount - 3, fixed_StrItem(it->doubleToString(it->getGPA(),1)));
+		this->setItem(row, columnCount - 2, fixed_StrItem(it->doubleToString(it->getAverageScore(),1)));
+		this->setItem(row, columnCount - 1, fixed_StrItem(it->doubleToString(it->getTotalCredit(),1)));
 		vector<CourseScore>::iterator course = it->getCourses().begin();
 		int column = 4;
 		while (course != it->getCourses().end())
 		{
-			this->setItem(row, column, NumItem(course->getScore()));
-			this->setItem(row, column + 1, fixed_NumItem(course->getCreditPoint()));
+			this->setItem(row, column, StrItem(course->doubleToString(course->getScore(),1)));
+			this->setItem(row, column + 1, fixed_StrItem(course->doubleToString(course->getCreditPoint(), 1)));
 			course++;
 			column += 2;
 		}
@@ -99,6 +80,7 @@ void Table::initialize_table()
 	manager = new ScoreManager(DB->get_All_Students());
 	manager->default_Sort();
 	class_to_table(manager->getStudents());
+	connect(this, &QTableWidget::itemChanged, this, &Table::On_cell_changed);
 }
 
 QTableWidgetItem* Table::StrItem(string x)
@@ -116,16 +98,8 @@ QTableWidgetItem* Table::fixed_StrItem(string x)
 	return item;
 }
 
-template<typename T>
-inline QTableWidgetItem* Table::NumItem(T x)
-{
-	qtwi* item = new qtwi(QString::number(x));
-	item->setTextAlignment(Qt::AlignCenter);
-	return item;
-}
 
-template<typename T>
-inline QTableWidgetItem* Table::fixed_NumItem(T x)
+QTableWidgetItem* Table::fixed_NumItem(int x)
 {
 	qtwi* item = new qtwi(QString::number(x));
 	item->setTextAlignment(Qt::AlignCenter);
@@ -135,8 +109,23 @@ inline QTableWidgetItem* Table::fixed_NumItem(T x)
 
 void Table::On_cell_changed(QTableWidgetItem* item)
 {
-	if (isRefreshing) 
+	if (isRefreshing)
 		return;
+	try
+	{
+		if (item->text().trimmed().isEmpty())
+			throw("内容不能为空或只有空格！");
+
+		QRegularExpression re("^[\\p{Han}\\p{L}\\s0-9 .]+$");
+		re.setPatternOptions(QRegularExpression::UseUnicodePropertiesOption);
+		if (!re.match(item->text()).hasMatch())
+			throw("只能输入汉字、英文字母、数字和空格！");
+	}catch(const char* msg)
+	{
+		QMessageBox::warning(nullptr, "输入错误", msg);
+		return;
+	}
+
 	int row = item->row();
 	int col = item->column();
 	if (row == 0)
@@ -157,17 +146,44 @@ void Table::On_cell_changed(QTableWidgetItem* item)
 	else 
 	{
 		Student *s = &manager->getStudents()[row - 2];
-		switch (col)
+		QRegularExpression re1("^[\u4e00-\u9fa5a-zA-Z ]+$");
+		QRegularExpression re2("^\\d+(\\.\\d+)?$");
+		string string0;
+		try
 		{
-		case 2:
-			s->setName(item->text().toStdString());
-			break;
-		case 3:
-			s->setDepartment(item->text().toStdString());
-			break;
-		default:
-			int i = (col - 4) / 2;
-			s->updateCourseScore(i, item->text().toDouble());
+			switch (col)
+			{
+			case 2:
+				string0 = s->getName();
+				if (!re1.match(item->text()).hasMatch())
+					throw("姓名只能为汉字、英文字母和空格！");
+				s->setName(item->text().toStdString());
+				break;
+			case 3:
+				string0 = s->getDepartment();
+				if (!re1.match(item->text()).hasMatch())
+					throw("院系只能为汉字、英文字母和空格！");
+				s->setDepartment(item->text().toStdString());
+				break;
+			default:
+				int i = (col - 4) / 2;
+				string0 = s->getCourses()[i].doubleToString(s->getCourses()[i].getScore(), 1);
+				if (!re2.match(item->text()).hasMatch())
+					throw( "课程成绩只能为数字！");
+				bool ok;
+				double score = item->text().toDouble(&ok);
+				if (!ok)
+					throw("请输入有效的数字！");
+				s->updateCourseScore(i, item->text().toDouble());
+				string0 = s->getCourses()[i].doubleToString(s->getCourses()[i].getScore(),1);
+				item->setText(QString::fromStdString(string0));
+			}
+		}
+		catch(const char* msg)
+		{
+			QMessageBox::warning(nullptr, "输入错误", msg);
+			item->setText(QString::fromStdString(string0));
+			return;
 		}
 	}
 }

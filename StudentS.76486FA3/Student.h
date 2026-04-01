@@ -40,6 +40,7 @@ public:
 
 
 	//Calculaters:
+	string doubleToString(double num, int precision = 4) { return Courses[0].doubleToString(num, precision); }
 	void calculateTotalCredit();    //根据课程成绩计算总学分
 	void calculateGPA();     //根据课程成绩计算GPA
 	void calculateAverageScore();   //根据课程成绩计算平均分

@@ -56,16 +56,22 @@ void InitialWidget::On_bt1_Clicked()
 			"SQLite数据库 (*.db )"
 		);
 		if (path.isEmpty())
-			throw "请选择数据库文件！";
-		else if (sub->isLocalDatabaseEmpty(path))
-			throw "数据库中没有学生数据！";
-		else if (!sub->connect_to_database())
-			throw "连接数据库失败！";
-		else
+			return;
+		MainWindow* sub = new MainWindow(this);
+		sub->setParent(this);
+
+		DatabaseHelper* db = new DatabaseHelper;
+		db->OpenDatabase(path);
+		if (db->get_All_Students().size() == 0)
 		{
-			this->hide();
-			sub->show();
+			QMessageBox::critical(this, " ", "数据库中无学生数据！");
+			return;
 		}
+		sub->connect_table_and_db(db);
+		sub->initable();
+		this->hide();
+		sub->show();
+		delete db;
 	}
 	catch (const char* msg)
 	{
@@ -89,15 +95,30 @@ void InitialWidget::On_bt2_Clicked()
 		csv->import_from_csv(path.toStdString());
 		if (csv->is_imported())
 		{
-			QString newFilePath = QFileDialog::getSaveFileName(
-				this,
-				"选择新建库路径",
-				QDir::currentPath() + "/Database/"+info.baseName()+".db", 
-				// 默认路径为项目文件夹的Database文件夹，名称和csv一致
-				"SQLite数据库 (*.db)"
-			);
-			if (newFilePath.isEmpty())
-				return;
+			QString newFilePath;
+			while (true)
+			{
+				newFilePath = QFileDialog::getSaveFileName(
+					this,
+					"选择新建库路径",
+					QDir::currentPath() + "/Database/" + info.baseName() + ".db",
+					// 默认路径为项目文件夹的Database文件夹，名称和csv一致
+					"SQLite数据库 (*.db)",
+					nullptr, QFileDialog::DontConfirmOverwrite
+				);
+				if (newFilePath.isEmpty())
+					return;
+				QFileInfo info(newFilePath);
+				if (info.exists() && info.isFile()) {
+					// 已存在：提示并重新循环选择
+					QMessageBox::warning(
+						this, "路径已存在",
+						"文件已存在，请输入其他文件名或选择其他路径！"
+					);
+					continue;
+				}
+				break;
+			}
 			MainWindow* sub = new MainWindow(this);
 			sub->setParent(this);
 

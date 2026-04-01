@@ -16,25 +16,29 @@ CourseScore::CourseScore(string name, double s, double c, double cp) : CName(nam
 void CourseScore::setScore(double s) 
 {
 	try {
-		score = s;
+		
 		if (s > 100 || s < 0)
 			throw "课程得分必须在0到100之间";
 	}
 	catch (const char* msg) {
 		QMessageBox::critical(nullptr, " ", msg);
+		return;
 	}
+	score = s;
 }
 
 void CourseScore::setCredit(double c) 
 {
 	try {
-		credit = c;
+		
 		if (c < 0)
 			throw "课程学分不能为负数";
 	}
 	catch (const char* msg) {
 		QMessageBox::critical(nullptr, " ", msg);
+		return;
 	}
+	credit = c;
 }
 
 void CourseScore::evaluateCreditPoint()

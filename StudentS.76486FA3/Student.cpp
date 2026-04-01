@@ -29,37 +29,41 @@ void Student::updateCourseCredit(int i, double x)
 //Setters:
 void Student::setGPA(double gpa) 
 { try{
-	GPA = gpa;
 	if (gpa > 4 || gpa < 0)
 		throw "GPA 必须在0到4之间";
 }
 catch (const char* msg) {
 	QMessageBox::critical(nullptr, " ", msg);
+	return;
 	}
+GPA = gpa;
 }
 
 void Student::setAverageScore(double as) 
 {
 	try {
-		AverageScore = as;
 		if (as > 100 || as < 0)
 			throw "平均学分成绩必须在0到100之间";
 	}
 	catch (const char* msg) {
 		QMessageBox::critical(nullptr, " ", msg);
+		return;
 	}
+	AverageScore = as;
 }
 
 void Student::setTotalCredit(double tc) 
 { 
 	try {
-		totalCredit = tc;
+		
 		if (tc < 0)
 			throw "总学分不能为负数";
 	}
 	catch (const char* msg) {
 		QMessageBox::critical(nullptr, " ", msg);
+		return;
 	}
+	totalCredit = tc;
 }
 
 
@@ -98,7 +102,7 @@ void Student::calculateGPA()
 {
 	if (totalCredit == 0)
 	{
-		AverageScore = 0.0;
+			GPA = 0.0;
 		return;
 	}
 	double totalCreditPoint = 0.0;

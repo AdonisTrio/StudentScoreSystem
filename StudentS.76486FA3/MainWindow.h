@@ -48,9 +48,8 @@ public:
 	void menu_bar();
 	//获得主窗口指针
 	void setParent(InitialWidget *parent) { ParentWidget = parent; }
-	bool connect_to_database() { return table->isOpen(); }
-	bool isLocalDatabaseEmpty(QString path);
-	void initable() { menu_bar(); table->initialize_table(); }
+
+	void initable() {  table->initialize_table();menu_bar(); }
 	void connect_table_and_db(DatabaseHelper* db) { table->connect_db(db); }
 	void keep_sort_measure();
 	QWidget* searchWidget();
