@@ -1,5 +1,7 @@
 ﻿#include "Table.h"
 
+#include <QInputDialog>
+
 Table::Table(QWidget* parent)
 {
 	DB = nullptr;
@@ -197,9 +199,28 @@ void Table::addEmptyStudent()
 		return;
 	}
 
+	/*
+	1                // 默认显示的数字
+    1                // 允许的最小值
+    9999999           // 允许的最大值
+    1                // 步长（点击上下箭头时每次增减的值）
+	*/
+	bool ok;
+	int newId = QInputDialog::getInt(nullptr, "", "请输入学号:", 1, 1, 9999999, 1, &ok); // 弹出对话框输入学号
+	if (!ok) return;
+
+	for (int i = 0; i < students.size(); i++)
+	{
+		if (students[i].getId() == newId)
+		{
+			QMessageBox::warning(nullptr, "", "学号已存在！");
+			return;
+		}
+	}
+
 	vector<CourseScore> Courses = students[0].getCourses();
 
-	Student newStudent;
+	Student newStudent("","", newId);
 	for (auto& c : Courses) 
 	{
 		CourseScore cs(c.getCourseName(), 0.0, c.getCredit(), 0.0);
@@ -214,6 +235,26 @@ void Table::addEmptyStudent()
 	reset();
 	default_sort();
 	class_to_table(manager->getStudents());
+
+	vector<Student> newList = manager->getStudents();
+
+	int targetRow;
+	for (int i = 0; i < (int)newList.size(); i++) {
+		if (newList[i].getId() == newId) {
+			// 表格前两行是表头，数据行从第2行开始
+			targetRow = i + 2;
+			break;
+		}
+	}
+
+	if (targetRow >= 2) {
+		// 获取该行第2列（学号列）的单元格，用来定位
+		QTableWidgetItem* cell = this->item(targetRow, 1);
+		if (cell != nullptr) {
+			this->scrollToItem(cell, QAbstractItemView::PositionAtBottom); // 滚动到底部
+			this->selectRow(targetRow); // 高亮整行
+		}
+	}
 }
 
 void Table::deleteSelectedStudent()
