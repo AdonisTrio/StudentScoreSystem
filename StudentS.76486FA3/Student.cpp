@@ -14,6 +14,7 @@ void Student::updateCourseScore(int i, double x)
 {
 	Courses[i].setScore(x); 
 	Courses[i].evaluateCreditPoint(); 
+	calculateTotalCredit();
 	calculateAverageScore();
 	calculateGPA();
 }
