@@ -42,6 +42,13 @@ public:
 	void addEmptyStudent();
 	void deleteSelectedStudent();
 
+	void filter_by_id(int id) { manager->filter_by_id(id); class_to_table(manager->getStudents()); }
+	void filter_by_name(const string& keyword) { manager->filter_by_name(keyword); class_to_table(manager->getStudents()); }
+	void filter_by_dep(const string& dept) { manager->filter_by_dep(dept); class_to_table(manager->getStudents()); }
+	void filter_by_CourseScoreMin(const string& courseName, double minScore) { manager->filter_by_CourseScoreMin(courseName, minScore); class_to_table(manager->getStudents()); }
+	void filter_by_CourseScoreMax(const string& courseName, double maxScore) { manager->filter_by_CourseScoreMax(courseName, maxScore); class_to_table(manager->getStudents()); }
+	void clearFilter() { manager->clearFilter(); class_to_table(manager->getStudents()); }
+
 private slots:
 	void On_cell_changed(QTableWidgetItem* item);
 

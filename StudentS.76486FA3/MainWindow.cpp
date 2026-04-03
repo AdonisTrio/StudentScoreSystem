@@ -2,6 +2,7 @@
 #include "InitialWidget.h"
 
 #include<QAbstractItemView>
+#include <QInputDialog>
 
 MainWindow::MainWindow(QWidget* parent) 
 {
@@ -63,6 +64,7 @@ void MainWindow::menu_bar()
 
 	//排序栏
 	qm* sortmenu = menuBar->addMenu("排序");
+
 	qa* sortselection1 = sortmenu->addAction("学号");
 	connect(sortselection1, &qa::triggered, this, [=]() 
 	{
@@ -89,6 +91,7 @@ void MainWindow::menu_bar()
 		});
 		j++;
 	}
+
 	qa* sortselection2 = sortmenu->addAction("平均学分成绩");
 	connect(sortselection2, &qa::triggered, this, [=]() 
 	{
@@ -100,7 +103,108 @@ void MainWindow::menu_bar()
 		}
 	});
 
+	//查询栏
+	qm* queryMenu = menuBar->addMenu("查询");
 
+	qa* byId = queryMenu->addAction("按学号查询");
+	connect(byId, &qa::triggered, this, [=]() 
+		{
+		bool ok;
+		int id = QInputDialog::getInt(this, "", "请输入学号:", 1, 1, 9999999, 1, &ok);
+		if (ok) 
+		{
+			table->filter_by_id(id);
+		}
+		});
+
+	qa* byName = queryMenu->addAction("按姓名查询");
+	connect(byName, &qa::triggered, this, [=]() 
+		{
+		bool ok;
+		/*
+		QLineEdit::Normal是Qt中QLineEdit类的一个枚举值，用于设置输入框的显示模式。
+		它是最常用的普通模式，表示：用户输入的字符原样显示（不隐藏、不做特殊转换）
+		*/
+		QString name = QInputDialog::getText(this, "", "请输入姓名:", QLineEdit::Normal, "", &ok); 
+		if (ok && !name.isEmpty()) 
+		{
+			table->filter_by_name(name.toStdString());
+		}
+		});
+
+	qa* byDept = queryMenu->addAction("按院系查询");
+	connect(byDept, &qa::triggered, this, [=]() 
+		{
+		bool ok;
+		QString dept = QInputDialog::getText(this, "", "请输入院系名称:", QLineEdit::Normal, "", &ok);
+		if (ok && !dept.isEmpty()) 
+		{
+			table->filter_by_dep(dept.toStdString());
+		}
+		});
+
+	qa* byCourseMin = queryMenu->addAction("按课程成绩（≥）");
+	connect(byCourseMin, &qa::triggered, this, [=]() 
+		{
+		vector<Student> students = table->get_current_studentlist();
+		if (students.empty()) 
+		{
+			QMessageBox::warning(this, "", "没有学生数据");
+			return;
+		}
+		vector<CourseScore> courses = students[0].getCourses();
+		QStringList courseNames;
+		for (int i = 0; i < courses.size(); ++i) 
+		{
+			courseNames << QString::fromStdString(courses[i].getCourseName());
+		}
+		bool ok;
+		/*
+		0			//默认选中第几项（0 表示第一项）
+		false		//是否允许用户手动输入
+		*/
+		QString course = QInputDialog::getItem(this, "选择课程", "课程:", courseNames, 0, false, &ok);
+		if (!ok) return;
+		double minScore = QInputDialog::getDouble(this, "", "请输入最低成绩（≥）:", 0, 0, 100, 1, &ok);
+		if (ok) 
+		{
+			table->filter_by_CourseScoreMin(course.toStdString(), minScore);
+		}
+		});
+
+	qa* byCourseMax = queryMenu->addAction("按课程成绩（≤）");
+	connect(byCourseMax, &qa::triggered, this, [=]() 
+		{
+		vector<Student> students = table->get_current_studentlist();
+		if (students.empty()) 
+		{
+			QMessageBox::warning(this, "", "没有学生数据");
+			return;
+		}
+		vector<CourseScore> courses = students[0].getCourses();
+		QStringList courseNames;
+		for (int i = 0; i < courses.size(); ++i) 
+		{
+			courseNames << QString::fromStdString(courses[i].getCourseName());
+		}
+		bool ok;
+		QString course = QInputDialog::getItem(this, "选择课程", "课程:", courseNames, 0, false, &ok);
+		if (!ok) return;
+		double maxScore = QInputDialog::getDouble(this, "", "请输入最高成绩（≤）:", 100, 0, 100, 1, &ok);
+		if (ok) 
+		{
+			table->filter_by_CourseScoreMax(course.toStdString(), maxScore);
+		}
+		});
+
+	qa* clear = queryMenu->addAction("显示全部");
+	connect(clear, &qa::triggered, this, [=]() 
+		{
+		table->clearFilter();
+		keep_sort_measure();
+		});
+
+	//导出栏
 	qa* exportmenu = menuBar->addAction("导出");
 	connect(exportmenu, &qa::triggered, this, &MainWindow::On_exportmenu_triggered);
 

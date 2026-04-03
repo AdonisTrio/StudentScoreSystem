@@ -15,6 +15,14 @@ Table::Table(QWidget* parent)
 
 void Table::class_to_table(vector<Student> students)
 {
+	//空列表保护
+	if (students.empty()) 
+	{
+		this->clear();
+		this->setRowCount(0); //将表格的行数设置为0，不显示任何行
+		return;
+	}
+
 	isRefreshing = true;
 
 	vector<CourseScore> courses = students[0].getCourses();
