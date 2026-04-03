@@ -206,7 +206,7 @@ void Table::addEmptyStudent()
     1                // 步长（点击上下箭头时每次增减的值）
 	*/
 	bool ok;
-	int newId = QInputDialog::getInt(nullptr, "", "请输入学号:", 1, 1, 9999999, 1, &ok); // 弹出对话框输入学号
+	int newId = QInputDialog::getInt(nullptr, "NJUST学生成绩管理系统", "请输入学号:", 1, 1, 9999999, 1, &ok); // 弹出对话框输入学号
 	if (!ok) return;
 
 	for (int i = 0; i < students.size(); i++)
@@ -238,7 +238,7 @@ void Table::addEmptyStudent()
 
 	vector<Student> newList = manager->getStudents();
 
-	int targetRow;
+	int targetRow = 0;
 	for (int i = 0; i < (int)newList.size(); i++) {
 		if (newList[i].getId() == newId) {
 			// 表格前两行是表头，数据行从第2行开始
