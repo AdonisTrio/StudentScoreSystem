@@ -15,9 +15,8 @@ public:
 		else return students;
 	}
 
-	void clearFilter() { filtering = false; }
+	void clearFilter() { filtering = false; filteredStudents.clear(); }
 
-	void filter_by_id(int id);
 	void filter_by_name(const string& name);
 	void filter_by_dep(const string& dept);
 	void filter_by_CourseScoreMin(const string& courseName, double minScore); // 课程成绩>=某值

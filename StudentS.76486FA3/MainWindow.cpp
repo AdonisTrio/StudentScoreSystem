@@ -103,21 +103,11 @@ void MainWindow::menu_bar()
 		}
 	});
 
-	//查询栏
-	qm* queryMenu = menuBar->addMenu("查询");
 
-	qa* byId = queryMenu->addAction("按学号查询");
-	connect(byId, &qa::triggered, this, [=]() 
-		{
-		bool ok;
-		int id = QInputDialog::getInt(this, "", "请输入学号:", 1, 1, 9999999, 1, &ok);
-		if (ok) 
-		{
-			table->filter_by_id(id);
-		}
-		});
+	//筛选栏
+	qm* queryMenu = menuBar->addMenu("筛选");
 
-	qa* byName = queryMenu->addAction("按姓名查询");
+	qa* byName = queryMenu->addAction("按姓名");
 	connect(byName, &qa::triggered, this, [=]() 
 		{
 		bool ok;
@@ -125,21 +115,23 @@ void MainWindow::menu_bar()
 		QLineEdit::Normal是Qt中QLineEdit类的一个枚举值，用于设置输入框的显示模式。
 		它是最常用的普通模式，表示：用户输入的字符原样显示（不隐藏、不做特殊转换）
 		*/
-		QString name = QInputDialog::getText(this, "", "请输入姓名:", QLineEdit::Normal, "", &ok); 
+		QString name = QInputDialog::getText(this, "NJUST学生成绩管理系统", "请输入姓名:", QLineEdit::Normal, "", &ok); 
 		if (ok && !name.isEmpty()) 
 		{
 			table->filter_by_name(name.toStdString());
+			keep_sort_measure();
 		}
 		});
 
-	qa* byDept = queryMenu->addAction("按院系查询");
+	qa* byDept = queryMenu->addAction("按院系");
 	connect(byDept, &qa::triggered, this, [=]() 
 		{
 		bool ok;
-		QString dept = QInputDialog::getText(this, "", "请输入院系名称:", QLineEdit::Normal, "", &ok);
+		QString dept = QInputDialog::getText(this, "NJUST学生成绩管理系统", "请输入院系名称:", QLineEdit::Normal, "", &ok);
 		if (ok && !dept.isEmpty()) 
 		{
 			table->filter_by_dep(dept.toStdString());
+			keep_sort_measure();
 		}
 		});
 
@@ -169,6 +161,7 @@ void MainWindow::menu_bar()
 		if (ok) 
 		{
 			table->filter_by_CourseScoreMin(course.toStdString(), minScore);
+			keep_sort_measure();
 		}
 		});
 
@@ -194,6 +187,7 @@ void MainWindow::menu_bar()
 		if (ok) 
 		{
 			table->filter_by_CourseScoreMax(course.toStdString(), maxScore);
+			keep_sort_measure();
 		}
 		});
 
@@ -219,7 +213,7 @@ void MainWindow::menu_bar()
 
 
 
-//根据当前排序方式对学生列表进行排序，以保持表格内容的排序状态不变
+//根据当前排序方式对学生列表进行排序并显示，以保持表格内容的排序状态不变
 void MainWindow::keep_sort_measure()
 {
 	if (current_sort == -1)
