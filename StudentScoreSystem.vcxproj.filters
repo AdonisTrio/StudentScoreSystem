@@ -50,6 +50,9 @@
     <ClCompile Include="StudentS.76486FA3\CSV_Helper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="StudentS.76486FA3\LoginWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StudentS.76486FA3\CourseScore.h">
@@ -76,6 +79,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="StudentS.76486FA3\Table.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="StudentS.76486FA3\LoginWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

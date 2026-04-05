@@ -2,7 +2,9 @@
 #include<QSqlDatabase>
 #include<QSqlQuery>
 #include<QSqlError>
+#include<QFileDialog>
 #include<QMessageBox>
+#include <QCryptographicHash>
 #include"Student.h"
 
 class DatabaseHelper
@@ -42,6 +44,10 @@ public:
 	void deleteStudent(int id);
 
 	void creatTeacherTable();
+
+	void addTeacher(const QString& username, const QString& password);
+
+	QString getSha256Hash(const QString& password);
 
 	bool verifyTeacher(const QString& username, const QString& password);
 };

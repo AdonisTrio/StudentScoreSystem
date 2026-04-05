@@ -1,5 +1,4 @@
-﻿#include "MainWindow.h"
-#include "InitialWidget.h"
+﻿#include "LoginWidget.h"
 #include<QApplication>
 
 
@@ -7,7 +6,7 @@ int main(int argc, char* argv[])
 {
 	QApplication app(argc, argv);
 	app.setWindowIcon(QIcon(":/resourses/NJUST.png"));
-	InitialWidget w;
+	LoginWidget w;
 	w.show();
 	return app.exec();
 }

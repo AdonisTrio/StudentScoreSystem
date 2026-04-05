@@ -1,5 +1,6 @@
 ﻿#include "MainWindow.h"
 #include "InitialWidget.h"
+#include "LoginWidget.h"
 
 #include<QAbstractItemView>
 #include <QInputDialog>
@@ -326,11 +327,21 @@ void MainWindow::On_exportmenu_triggered()
 //返回父窗口并关闭当前窗口
 void MainWindow::On_returnmenu_triggered()
 {
-	
-	if (ParentWidget) {
-		ParentWidget->show();
-		ParentWidget->raise();
-		ParentWidget->activateWindow();
+	if(isTeacher==false)
+	{
+		if (ParentLoginWidget) {
+			ParentLoginWidget->show();
+			ParentLoginWidget->raise();
+			ParentLoginWidget->activateWindow();
+		}
+	}
+	else
+	{
+		if (ParentWidget) {
+			ParentWidget->show();
+			ParentWidget->raise();
+			ParentWidget->activateWindow();
+		}
 	}
 	this->close();
 }

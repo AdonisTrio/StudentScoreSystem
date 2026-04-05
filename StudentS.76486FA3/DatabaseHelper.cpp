@@ -23,7 +23,6 @@ void DatabaseHelper::OpenDatabase(QString path)
 	db = QSqlDatabase::addDatabase("QSQLITE");
 	db.setDatabaseName(path);
 	db.open();
-	creatTeacherTable();
 }
 
 void DatabaseHelper::CreateTableStudents()
@@ -34,7 +33,7 @@ void DatabaseHelper::CreateTableStudents()
 		"GPA REAL,"
 		"平均学分成绩 REAL,"
 		"总学分 REAL)";
-	QSqlQuery q;
+	QSqlQuery q(db);
 	if (!q.exec(SQL))
 		QMessageBox::critical(nullptr, " ", "创建学生表失败！\n" + q.lastError().text());
 }
@@ -43,11 +42,11 @@ void DatabaseHelper::CreateTableCourses(Student LiHua)
 {
 	string  id = to_string(LiHua.getId());	
 	string SQL = "CREATE TABLE IF NOT EXISTS \"" + id + "\" ("
-		"程名称 TEXT PRIMARY KEY,"
+		"课程名称 TEXT PRIMARY KEY,"
 		"课程得分 REAL,"
 		"课程学分 REAL,"
 		"课程绩点 REAL)";
-	QSqlQuery q;
+	QSqlQuery q(db);
 	if (!q.exec(SQL.c_str()))
 		QMessageBox::critical(nullptr, " ", "创建课程成绩表失败！\n" + q.lastError().text());
 }
@@ -56,7 +55,7 @@ void DatabaseHelper::getCourseScores( Student& LiHua)
 {
 	string  id = to_string(LiHua.getId());
 	string SQL = "SELECT * FROM \"" + id + "\"";
-	QSqlQuery q;
+	QSqlQuery q(db);
 	q.exec(SQL.c_str());
 	while (q.next())
 	{
@@ -75,7 +74,7 @@ vector<Student> DatabaseHelper::get_All_Students()
 {
 	vector<Student> students;
 	const char* SQL = "SELECT * FROM Students";
-	QSqlQuery q;
+	QSqlQuery q(db);
 	q.exec(SQL);
 	while (q.next())
 	{
@@ -102,7 +101,7 @@ void DatabaseHelper::FillTableCourses(Student LiHua)
 	{
 		string SQL = "INSERT INTO \"" + id + "\" (课程名称, 课程得分, 课程学分, 课程绩点) VALUES ('" +
 			course->getCourseName() + "', ? , ? , ?)";
-		QSqlQuery q;
+		QSqlQuery q(db);
 		q.prepare(SQL.c_str());
 		q.bindValue(0, course->getScore());
 		q.bindValue(1, course->getCredit());
@@ -125,7 +124,7 @@ void DatabaseHelper::FillTableStudents(vector<Student> students)
 		string SQL = "INSERT INTO Students (姓名, 院系, 学号, GPA, 平均学分成绩, 总学分) VALUES ('" +
 			student->getName() + "', '" +
 			student->getDepartment() + "', ? , ? ,? , ?)";
-		QSqlQuery q;
+		QSqlQuery q(db);
 		q.prepare(SQL.c_str());
 		q.bindValue(0, student->getId());
 		q.bindValue(1, student->getGPA());
@@ -142,10 +141,10 @@ void DatabaseHelper::update_Student(vector<Student> students)
 {
 	if(students.size() == 0)
 		return;
-	for (auto x : students)
+	for (auto &x : students)
 	{
 		string SQL1 = "UPDATE Students SET 姓名 = ?, 院系 = ? , GPA = ? , 平均学分成绩 = ? , 总学分 = ? WHERE 学号 = ?";
-		QSqlQuery q;
+		QSqlQuery q(db);
 		q.prepare(SQL1.c_str());
 		q.bindValue(0, x.getName().c_str());
 		q.bindValue(1, x.getDepartment().c_str());
@@ -162,7 +161,7 @@ void DatabaseHelper::update_Student(vector<Student> students)
 		string SQL2 = "DELETE FROM \"" + id + "\""; 
 		//delete仅删除表中的数据，不删除表结构，因此可以直接调用FillTableCourses函数将更新后的课程成绩数据填充到数据库中对应学生的课程成绩表中
 		
-		QSqlQuery q1;
+		QSqlQuery q1(db);
 		if (!q1.exec(SQL2.c_str())) {
 			QMessageBox::critical(nullptr, "", "清空课程成绩失败：\n" + q.lastError().text());
 			return;
@@ -180,7 +179,7 @@ void DatabaseHelper::addStudent(Student& stu)
 
 void DatabaseHelper::deleteStudent(int id)
 {
-	QSqlQuery q;
+	QSqlQuery q(db);
 	string SQL1 = "DROP TABLE IF EXISTS \"" + to_string(id) + "\"";
 	if (!q.exec(SQL1.c_str())) 
 	{
@@ -198,33 +197,60 @@ void DatabaseHelper::deleteStudent(int id)
 
 void DatabaseHelper::creatTeacherTable()
 {
+	QSqlDatabase DB = QSqlDatabase::addDatabase("QSQLITE");
+	DB.setDatabaseName(QDir::currentPath() + "/Teachers/Teacher.db");
+	DB.open();
+
 	const char* SQL = "CREATE TABLE IF NOT EXISTS Teacher ("
 		"username TEXT PRIMARY KEY, "
 		"password TEXT NOT NULL)";
-	QSqlQuery q;
+	QSqlQuery q(DB);
 	if (!q.exec(SQL))
 	{
 		QMessageBox::critical(nullptr, "", "创建教师表失败：" + q.lastError().text());
 	}
 
-	q.exec("SELECT COUNT(*) FROM Teacher WHERE username = 'admin'"); //选出符合条件的行
-	if (q.next() && q.value(0).toInt() == 0)
+}
+
+void DatabaseHelper::addTeacher(const QString& username, const QString& password)
+{
+	QSqlDatabase DB = QSqlDatabase::addDatabase("QSQLITE");
+	DB.setDatabaseName(QDir::currentPath() + "/Teachers/Teacher.db");
+	DB.open();
+	const char* SQL = "INSERT INTO Teacher (username, password) VALUES (?, ?)";
+	QSqlQuery q(DB);
+	q.bindValue(0, username);
+	q.bindValue(1, getSha256Hash(password));
+	if(!q.exec())
 	{
-		q.exec("INSERT INTO Teacher (username, password) VALUES ('admin', '123456')");
+		QMessageBox::critical(nullptr, "", "添加教师权限失败！" );
 	}
+}
+
+
+//将密码进行SHA-256哈希处理，返回哈希值的十六进制字符串表示
+QString DatabaseHelper::getSha256Hash(const QString& password)
+{
+	QByteArray bytePwd = password.toUtf8();
+	QByteArray hash = QCryptographicHash::hash(bytePwd, QCryptographicHash::Sha256);
+	return hash.toHex();
 }
 
 bool DatabaseHelper::verifyTeacher(const QString& username, const QString& password)
 {
+	QSqlDatabase DB = QSqlDatabase::addDatabase("QSQLITE");
+	DB.setDatabaseName(QDir::currentPath() + "/Teachers/Teacher.db");
+	DB.open();
+
 	const char* SQL = "SELECT password FROM Teacher WHERE username = ?";
-	QSqlQuery q;
+	QSqlQuery q(DB);
 	q.prepare(SQL);
 	q.bindValue(0, username);
 	if (!q.exec()) return false;
 	if (q.next())
 	{
 		QString storedPwd = q.value(0).toString();
-		return storedPwd == password;
+		return storedPwd == getSha256Hash(password);
 	}
 	return false;
 }

@@ -21,6 +21,7 @@
 #include"CSV_Helper.h"
 
 class InitialWidget;
+class LoginWidget;
 
 class MainWindow :public QMainWindow
 {
@@ -28,6 +29,7 @@ class MainWindow :public QMainWindow
 
 private:
 	InitialWidget* ParentWidget;
+	LoginWidget* ParentLoginWidget;
 	Table* table;
 	bool is_allowed_edited;
 	bool is_sort_changed;
@@ -49,6 +51,7 @@ public:
 	void menu_bar();
 	//获得主窗口指针
 	void setParent(InitialWidget *parent) { ParentWidget = parent; }
+	void setParent(LoginWidget* parent) { ParentLoginWidget = parent; }
 
 	void initable() {  table->initialize_table();menu_bar(); }
 	void connect_table_and_db(DatabaseHelper* db) { table->connect_db(db); }

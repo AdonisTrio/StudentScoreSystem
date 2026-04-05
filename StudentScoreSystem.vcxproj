@@ -96,6 +96,7 @@
     <ClCompile Include="StudentS.76486FA3\CSV_Helper.cpp" />
     <ClCompile Include="StudentS.76486FA3\DatabaseHelper.cpp" />
     <ClCompile Include="StudentS.76486FA3\InitialWidget.cpp" />
+    <ClCompile Include="StudentS.76486FA3\LoginWidget.cpp" />
     <ClCompile Include="StudentS.76486FA3\main.cpp" />
     <ClCompile Include="StudentS.76486FA3\MainWindow.cpp" />
     <ClCompile Include="StudentS.76486FA3\ScoreManager.cpp" />
@@ -106,6 +107,7 @@
     <ClInclude Include="StudentS.76486FA3\CourseScore.h" />
     <ClInclude Include="StudentS.76486FA3\CSV_Helper.h" />
     <ClInclude Include="StudentS.76486FA3\DatabaseHelper.h" />
+    <QtMoc Include="StudentS.76486FA3\LoginWidget.h" />
     <ClInclude Include="StudentS.76486FA3\ScoreManager.h" />
     <ClInclude Include="StudentS.76486FA3\Student.h" />
     <QtMoc Include="StudentS.76486FA3\Table.h" />

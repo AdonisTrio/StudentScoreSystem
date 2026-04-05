@@ -26,7 +26,7 @@ void InitialWidget::initialize_widget()
 	b2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	
 	//标签
-	lb* l1 = new lb("欢迎使用学生成绩管理系统", this);
+	lb* l1 = new lb("老师，您辛苦了！", this);
 	l1->setFont(QFont("Microsoft YaHei", 25));
 	l1->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	l1->setAlignment(Qt::AlignCenter);
@@ -47,8 +47,6 @@ void InitialWidget::initialize_widget()
 //选择并打开本地数据库，隐藏当前窗口
 void InitialWidget::On_bt1_Clicked()
 {
-	MainWindow* sub = new MainWindow(this);
-	sub->setParent(this);
 	try
 	{
 		QString path = QFileDialog::getOpenFileName(
@@ -59,36 +57,17 @@ void InitialWidget::On_bt1_Clicked()
 		);
 		if (path.isEmpty())
 			return;
-		sub->setParent(this);
 
 		DatabaseHelper* db = new DatabaseHelper;
 		db->OpenDatabase(path);
 		if (db->get_All_Students().size() == 0) {
-			QMessageBox::critical(this, " ", "数据库中无学生数据！");
 			delete db;
-			delete sub;
-			return;
+			throw"数据库中没有学生记录！请重新选择或导入CSV文件建库。";
 		}
-
-		// 弹出登录对话框
-		bool ok;
-		QString username = QInputDialog::getText(this, "登录", "用户名（取消或留空进入访客模式）:", QLineEdit::Normal, "", &ok);
-		bool isTeacher = false;
-		if (ok && !username.isEmpty()) {
-			QString password = QInputDialog::getText(this, "登录", "密码:", QLineEdit::Password, "", &ok);
-			if (ok && !password.isEmpty()) {
-				if (db->verifyTeacher(username, password)) {
-					isTeacher = true;
-				}
-				else {
-					QMessageBox::warning(this, "", "用户名或密码错误！将以访客模式打开。");
-				}
-			}
-		}
-
+		MainWindow* sub = new MainWindow(this);
 		sub->setParent(this);
+		sub->setTeacherMode(true); //以教师身份登录，允许编辑和保存
 		sub->connect_table_and_db(db);
-		sub->setTeacherMode(isTeacher);
 		sub->initable();
 		this->hide();
 		sub->show();
