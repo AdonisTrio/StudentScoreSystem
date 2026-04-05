@@ -5,7 +5,6 @@ DatabaseHelper::DatabaseHelper()
 
 }
 
-
 vector<string> DatabaseHelper::split(const string& s, char delimiter)
 {
 	vector<string> tokens;
@@ -24,11 +23,17 @@ void DatabaseHelper::OpenDatabase(QString path)
 	db = QSqlDatabase::addDatabase("QSQLITE");
 	db.setDatabaseName(path);
 	db.open();
+	creatTeacherTable();
 }
 
 void DatabaseHelper::CreateTableStudents()
 {
-	const char* SQL = "CREATE TABLE IF NOT EXISTS Students ( 姓名 TEXT, 院系 TEXT,学号 INTEGER PRIMARY KEY, GPA REAL, 平均学分成绩 REAL, 总学分 REAL)";
+	const char* SQL = "CREATE TABLE IF NOT EXISTS Students ("
+		"姓名 TEXT, 院系 TEXT,"
+		"学号 INTEGER PRIMARY KEY,"
+		"GPA REAL,"
+		"平均学分成绩 REAL,"
+		"总学分 REAL)";
 	QSqlQuery q;
 	if (!q.exec(SQL))
 		QMessageBox::critical(nullptr, " ", "创建学生表失败！\n" + q.lastError().text());
@@ -37,7 +42,11 @@ void DatabaseHelper::CreateTableStudents()
 void DatabaseHelper::CreateTableCourses(Student LiHua)
 {
 	string  id = to_string(LiHua.getId());	
-	string SQL = "CREATE TABLE IF NOT EXISTS \"" + id + "\" ( 课程名称 TEXT PRIMARY KEY, 课程得分 REAL, 课程学分 REAL, 课程绩点 REAL)";
+	string SQL = "CREATE TABLE IF NOT EXISTS \"" + id + "\" ("
+		"程名称 TEXT PRIMARY KEY,"
+		"课程得分 REAL,"
+		"课程学分 REAL,"
+		"课程绩点 REAL)";
 	QSqlQuery q;
 	if (!q.exec(SQL.c_str()))
 		QMessageBox::critical(nullptr, " ", "创建课程成绩表失败！\n" + q.lastError().text());
@@ -185,4 +194,37 @@ void DatabaseHelper::deleteStudent(int id)
 		QMessageBox::critical(nullptr, "", "删除学生记录失败：" + q.lastError().text());
 		return;
 	}
+}
+
+void DatabaseHelper::creatTeacherTable()
+{
+	const char* SQL = "CREATE TABLE IF NOT EXISTS Teacher ("
+		"username TEXT PRIMARY KEY, "
+		"password TEXT NOT NULL)";
+	QSqlQuery q;
+	if (!q.exec(SQL))
+	{
+		QMessageBox::critical(nullptr, "", "创建教师表失败：" + q.lastError().text());
+	}
+
+	q.exec("SELECT COUNT(*) FROM Teacher WHERE username = 'admin'"); //选出符合条件的行
+	if (q.next() && q.value(0).toInt() == 0)
+	{
+		q.exec("INSERT INTO Teacher (username, password) VALUES ('admin', '123456')");
+	}
+}
+
+bool DatabaseHelper::verifyTeacher(const QString& username, const QString& password)
+{
+	const char* SQL = "SELECT password FROM Teacher WHERE username = ?";
+	QSqlQuery q;
+	q.prepare(SQL);
+	q.bindValue(0, username);
+	if (!q.exec()) return false;
+	if (q.next())
+	{
+		QString storedPwd = q.value(0).toString();
+		return storedPwd == password;
+	}
+	return false;
 }

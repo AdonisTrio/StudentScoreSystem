@@ -1,5 +1,7 @@
 ﻿#include "InitialWidget.h"
 
+#include<QInputDialog>
+
 InitialWidget::InitialWidget(QWidget* parent) 
 {
 	initialize_widget();
@@ -57,21 +59,39 @@ void InitialWidget::On_bt1_Clicked()
 		);
 		if (path.isEmpty())
 			return;
-		MainWindow* sub = new MainWindow(this);
 		sub->setParent(this);
 
 		DatabaseHelper* db = new DatabaseHelper;
 		db->OpenDatabase(path);
-		if (db->get_All_Students().size() == 0)
-		{
+		if (db->get_All_Students().size() == 0) {
 			QMessageBox::critical(this, " ", "数据库中无学生数据！");
+			delete db;
+			delete sub;
 			return;
 		}
+
+		// 弹出登录对话框
+		bool ok;
+		QString username = QInputDialog::getText(this, "登录", "用户名（取消或留空进入访客模式）:", QLineEdit::Normal, "", &ok);
+		bool isTeacher = false;
+		if (ok && !username.isEmpty()) {
+			QString password = QInputDialog::getText(this, "登录", "密码:", QLineEdit::Password, "", &ok);
+			if (ok && !password.isEmpty()) {
+				if (db->verifyTeacher(username, password)) {
+					isTeacher = true;
+				}
+				else {
+					QMessageBox::warning(this, "", "用户名或密码错误！将以访客模式打开。");
+				}
+			}
+		}
+
+		sub->setParent(this);
 		sub->connect_table_and_db(db);
+		sub->setTeacherMode(isTeacher);
 		sub->initable();
 		this->hide();
 		sub->show();
-		delete db;
 	}
 	catch (const char* msg)
 	{

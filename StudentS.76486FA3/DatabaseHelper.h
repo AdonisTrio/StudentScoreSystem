@@ -40,6 +40,10 @@ public:
 	void addStudent(Student&);
 
 	void deleteStudent(int id);
+
+	void creatTeacherTable();
+
+	bool verifyTeacher(const QString& username, const QString& password);
 };
 
 

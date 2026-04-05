@@ -32,6 +32,7 @@ private:
 	bool is_allowed_edited;
 	bool is_sort_changed;
 	int current_sort;
+	bool isTeacher;
 
 public:
 	typedef MainWindow mw;
@@ -53,6 +54,8 @@ public:
 	void connect_table_and_db(DatabaseHelper* db) { table->connect_db(db); }
 	void keep_sort_measure();
 	QWidget* searchWidget();
+
+	void setTeacherMode(bool enabled) { isTeacher = enabled; }
 
 private slots:
 	void On_save_menu_triggered();

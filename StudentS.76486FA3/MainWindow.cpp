@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget* parent)
 	is_allowed_edited = false;
 	is_sort_changed = false;
 	current_sort = -2;
+	isTeacher = false;
 	initialize_window();
 }
 
@@ -206,6 +207,11 @@ void MainWindow::menu_bar()
 	qa* returnmenu = menuBar->addAction("返回");
 	connect(returnmenu, & qa::triggered, this,  & MainWindow::On_returnmenu_triggered);
 
+	updatemenu->setEnabled(isTeacher);
+	editmenu->setEnabled(isTeacher);
+	cancelmenu->setEnabled(isTeacher);
+	addmenu->setEnabled(isTeacher);
+	deletemenu->setEnabled(isTeacher);
 
 	qw* search_Widget = searchWidget();
 	menuBar->setCornerWidget(search_Widget, Qt::TopRightCorner);
