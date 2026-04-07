@@ -45,7 +45,11 @@ public:
 	void filter_by_name(const string& keyword) { manager->filter_by_name(keyword);  }
 	void filter_by_dep(const string& dept) { manager->filter_by_dep(dept);  }
 	void filter_by_CourseScoreMin(const string& courseName, double minScore) { manager->filter_by_CourseScoreMin(courseName, minScore); }
-	void filter_by_CourseScoreMax(const string& courseName, double maxScore) { manager->filter_by_CourseScoreMax(courseName, maxScore);  }
+	void filter_by_CourseScoreMax(const string& courseName, double maxScore) { manager->filter_by_CourseScoreMax(courseName, maxScore);}
+	void filter_by_Excel() { manager->filter_by_excel(); }
+	void filter_by_Middle() { manager->filter_by_middle(); }
+	void filter_by_Pass() { manager->filter_by_Pass(); }
+	void filter_by_Fail() { manager->filter_by_Fail(); }
 	void clearFilter() { manager->clearFilter(); }
 
 private slots:

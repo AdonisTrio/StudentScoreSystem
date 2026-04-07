@@ -26,8 +26,8 @@ void InitialWidget::initialize_widget()
 	b2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	
 	//标签
-	lb* l1 = new lb("老师，您辛苦了！", this);
-	l1->setFont(QFont("Microsoft YaHei", 25));
+	lb* l1 = new lb("   老师，您辛苦了！", this);
+	l1->setFont(QFont("Microsoft YaHei", 35));
 	l1->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	l1->setAlignment(Qt::AlignCenter);
 	
@@ -78,6 +78,7 @@ void InitialWidget::On_bt1_Clicked()
 	}
 }
 
+//导入CSV文件建库，选择CSV文件后提示选择新建库路径，建立数据库，将CSV数据写入数据库，并连接数据库和表格，隐藏当前窗口
 void InitialWidget::On_bt2_Clicked()
 {
 	QString path = QFileDialog::getOpenFileName(
@@ -120,6 +121,7 @@ void InitialWidget::On_bt2_Clicked()
 			}
 			MainWindow* sub = new MainWindow(this);
 			sub->setParent(this);
+			sub->setTeacherMode(true);
 
 			//建立数据库，将CSV数据写入数据库，并连接数据库和表格
 			DatabaseHelper* db = new DatabaseHelper;

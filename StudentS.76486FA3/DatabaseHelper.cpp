@@ -195,40 +195,7 @@ void DatabaseHelper::deleteStudent(int id)
 	}
 }
 
-void DatabaseHelper::creatTeacherTable()
-{
-	QSqlDatabase DB = QSqlDatabase::addDatabase("QSQLITE");
-	DB.setDatabaseName(QDir::currentPath() + "/Teachers/Teacher.db");
-	DB.open();
 
-	const char* SQL = "CREATE TABLE IF NOT EXISTS Teacher ("
-		"username TEXT PRIMARY KEY, "
-		"password TEXT NOT NULL)";
-	QSqlQuery q(DB);
-	if (!q.exec(SQL))
-	{
-		QMessageBox::critical(nullptr, "", "创建教师表失败：" + q.lastError().text());
-	}
-
-}
-
-void DatabaseHelper::addTeacher(const QString& username, const QString& password)
-{
-	QSqlDatabase DB = QSqlDatabase::addDatabase("QSQLITE");
-	DB.setDatabaseName(QDir::currentPath() + "/Teachers/Teacher.db");
-	DB.open();
-	const char* SQL = "INSERT INTO Teacher (username, password) VALUES (?, ?)";
-	QSqlQuery q(DB);
-	q.bindValue(0, username);
-	q.bindValue(1, getSha256Hash(password));
-	if(!q.exec())
-	{
-		QMessageBox::critical(nullptr, "", "添加教师权限失败！" );
-	}
-}
-
-
-//将密码进行SHA-256哈希处理，返回哈希值的十六进制字符串表示
 QString DatabaseHelper::getSha256Hash(const QString& password)
 {
 	QByteArray bytePwd = password.toUtf8();

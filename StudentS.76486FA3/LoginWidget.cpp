@@ -45,7 +45,7 @@ void LoginWidget::initialize_widget()
 	layout2->setAlignment(l1, Qt::AlignHCenter);
 }
 
-
+//以教师身份登录，输入用户名和密码，验证成功后以教师模式打开主窗口，隐藏当前窗口
 void LoginWidget::On_bt1_Clicked()
 {
 	// 弹出登录对话框
@@ -68,6 +68,7 @@ void LoginWidget::On_bt1_Clicked()
 	}
 }
 
+//以访客模式打开，选择并打开本地数据库，验证数据库中是否有学生记录，隐藏当前窗口
 void LoginWidget::On_bt2_Clicked()
 {
 	try

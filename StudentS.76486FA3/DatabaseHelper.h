@@ -16,6 +16,7 @@ public:
 	bool isOpen() { return db.isOpen(); }
 
 	vector<string> split(const string& s, char delimiter);
+	//将字符串s按照指定的分隔符delimiter进行分割，并将分割后的子字符串存储在一个vector<string>容器中返回
 
 	void OpenDatabase( QString );
 
@@ -38,18 +39,19 @@ public:
 	//将学生对象的vector中的数据填充到数据库的Students表中
 
 	void update_Student(vector<Student>);
+	//根据学生对象的vector中的数据更新数据库中对应学生的记录和课程成绩表
 
 	void addStudent(Student&);
+	//向数据库中添加一个学生记录和对应的课程成绩表
 
 	void deleteStudent(int id);
-
-	void creatTeacherTable();
-
-	void addTeacher(const QString& username, const QString& password);
+	//根据学生学号删除学生记录和对应的课程成绩表
 
 	QString getSha256Hash(const QString& password);
+	//使用SHA-256算法对密码进行哈希处理，返回哈希值的十六进制字符串表示
 
 	bool verifyTeacher(const QString& username, const QString& password);
+	//验证教师登录信息，返回true表示验证成功，false表示验证失败
 };
 
 

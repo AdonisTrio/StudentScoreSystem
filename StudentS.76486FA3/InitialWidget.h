@@ -3,8 +3,6 @@
 
 #include "MainWindow.h"
 
-class MainWindow;
-
 class InitialWidget :public QWidget
 {
 	Q_OBJECT;

@@ -167,13 +167,13 @@ void Table::On_cell_changed(QTableWidgetItem* item)
 				string0 = s->getName();
 				if (!re1.match(item->text()).hasMatch())
 					throw("姓名只能为汉字、英文字母和空格！");
-				s->setName(item->text().toStdString());
+				s->setName(item->text().trimmed().toStdString());
 				break;
 			case 3:
 				string0 = s->getDepartment();
 				if (!re1.match(item->text()).hasMatch())
 					throw("院系只能为汉字、英文字母和空格！");
-				s->setDepartment(item->text().toStdString());
+				s->setDepartment(item->text().trimmed().toStdString());
 				break;
 			default:
 				int i = (col - 4) / 2;

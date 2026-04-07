@@ -109,7 +109,7 @@ void MainWindow::menu_bar()
 	//筛选栏
 	qm* queryMenu = menuBar->addMenu("筛选");
 
-	qa* byName = queryMenu->addAction("按姓名");
+	qa* byName = queryMenu->addAction("按姓名筛查");
 	connect(byName, &qa::triggered, this, [=]() 
 		{
 		bool ok;
@@ -125,7 +125,7 @@ void MainWindow::menu_bar()
 		}
 		});
 
-	qa* byDept = queryMenu->addAction("按院系");
+	qa* byDept = queryMenu->addAction("按院系筛查");
 	connect(byDept, &qa::triggered, this, [=]() 
 		{
 		bool ok;
@@ -137,61 +137,86 @@ void MainWindow::menu_bar()
 		}
 		});
 
-	qa* byCourseMin = queryMenu->addAction("按课程成绩（≥）");
-	connect(byCourseMin, &qa::triggered, this, [=]() 
+	qa* byCourseMin = queryMenu->addAction("按指定课程成绩（≥）");
+	connect(byCourseMin, &qa::triggered, this, [=]()
 		{
-		vector<Student> students = table->get_current_studentlist();
-		if (students.empty()) 
-		{
-			QMessageBox::warning(this, "", "没有学生数据");
-			return;
-		}
-		vector<CourseScore> courses = students[0].getCourses();
-		QStringList courseNames;
-		for (int i = 0; i < courses.size(); ++i) 
-		{
-			courseNames << QString::fromStdString(courses[i].getCourseName());
-		}
-		bool ok;
-		/*
-		0			//默认选中第几项（0 表示第一项）
-		false		//是否允许用户手动输入
-		*/
-		QString course = QInputDialog::getItem(this, "选择课程", "课程:", courseNames, 0, false, &ok);
-		if (!ok) return;
-		double minScore = QInputDialog::getDouble(this, "", "请输入最低成绩（≥）:", 0, 0, 100, 1, &ok);
-		if (ok) 
-		{
-			table->filter_by_CourseScoreMin(course.toStdString(), minScore);
-			keep_sort_measure();
-		}
+			vector<Student> students = table->get_current_studentlist();
+			vector<CourseScore> courses = students[0].getCourses();
+			QStringList courseNames;
+			for (int i = 0; i < courses.size(); ++i)
+			{
+				courseNames << QString::fromStdString(courses[i].getCourseName());
+			}
+			bool ok;
+			/*
+			0			//默认选中第几项（0 表示第一项）
+			false		//是否允许用户手动输入
+			*/
+			QString course = QInputDialog::getItem(this, "选择课程", "课程:", courseNames, 0, false, &ok);
+			if (!ok) return;
+			double minScore = QInputDialog::getDouble(this, "", "请输入最低成绩（≥）:", 0, 0, 100, 1, &ok);
+			if (ok)
+			{
+				table->filter_by_CourseScoreMin(course.toStdString(), minScore);
+				keep_sort_measure();
+			}
 		});
 
-	qa* byCourseMax = queryMenu->addAction("按课程成绩（≤）");
-	connect(byCourseMax, &qa::triggered, this, [=]() 
+	qa* byCourseMax = queryMenu->addAction("按指定课程成绩（≤）");
+	connect(byCourseMax, &qa::triggered, this, [=]()
 		{
-		vector<Student> students = table->get_current_studentlist();
-		if (students.empty()) 
-		{
-			QMessageBox::warning(this, "", "没有学生数据");
-			return;
-		}
-		vector<CourseScore> courses = students[0].getCourses();
-		QStringList courseNames;
-		for (int i = 0; i < courses.size(); ++i) 
-		{
-			courseNames << QString::fromStdString(courses[i].getCourseName());
-		}
-		bool ok;
-		QString course = QInputDialog::getItem(this, "选择课程", "课程:", courseNames, 0, false, &ok);
-		if (!ok) return;
-		double maxScore = QInputDialog::getDouble(this, "", "请输入最高成绩（≤）:", 100, 0, 100, 1, &ok);
-		if (ok) 
-		{
-			table->filter_by_CourseScoreMax(course.toStdString(), maxScore);
-			keep_sort_measure();
-		}
+			vector<Student> students = table->get_current_studentlist();
+			vector<CourseScore> courses = students[0].getCourses();
+			QStringList courseNames;
+			for (int i = 0; i < courses.size(); ++i)
+			{
+				courseNames << QString::fromStdString(courses[i].getCourseName());
+			}
+			bool ok;
+			QString course = QInputDialog::getItem(this, "选择课程", "课程:", courseNames, 0, false, &ok);
+			if (!ok) return;
+			double maxScore = QInputDialog::getDouble(this, "", "请输入最高成绩（≤）:", 100, 0, 100, 1, &ok);
+			if (ok)
+			{
+				table->filter_by_CourseScoreMax(course.toStdString(), maxScore);
+				keep_sort_measure();
+			}
 		});
+
+	qa* byExcel = queryMenu->addAction("按课程全部优秀");
+	connect(byExcel, &qa::triggered, this, [=]()
+		{
+			vector<Student> students = table->get_current_studentlist();
+			
+			table->filter_by_Excel();
+			keep_sort_measure();
+		});
+
+	qa* byMiddle = queryMenu->addAction("按课程全部良好");
+	connect(byMiddle, &qa::triggered, this, [=]()
+		{
+			vector<Student> students = table->get_current_studentlist();
+			table->filter_by_Middle();
+			keep_sort_measure();
+		});
+
+	qa* byPass = queryMenu->addAction("按课程全部及格");
+	connect(byPass, &qa::triggered, this, [=]()
+		{
+			vector<Student> students = table->get_current_studentlist();
+			table->filter_by_Pass();
+			keep_sort_measure();
+		});
+
+	qa* byFail = queryMenu->addAction("按任一课程不及格");
+	connect(byFail, &qa::triggered, this, [=]()
+		{
+			vector<Student> students = table->get_current_studentlist();
+			table->filter_by_Fail();
+			keep_sort_measure();
+		});
+
+
 
 	qa* clear = queryMenu->addAction("显示全部");
 	connect(clear, &qa::triggered, this, [=]() 
