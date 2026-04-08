@@ -65,7 +65,7 @@ void ScoreManager::filter_by_name(const string& name)
 		for (int i = 0; i < filteredStudents.size(); ++i)
 		{
 			string n = filteredStudents[i].getName();
-			if (name == n)
+			if (n.find(name) != string::npos)
 			{
 				temp.push_back(filteredStudents[i]);
 			}

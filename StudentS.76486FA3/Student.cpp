@@ -110,7 +110,8 @@ void Student::calculateGPA()
 	vector<CourseScore>::iterator pd = Courses.begin();
 	while (pd != Courses.end())
 	{
-		totalCreditPoint += (pd->getCreditPoint() * pd->getCredit());
+		if (pd->getScore() >= 60)
+			totalCreditPoint += (pd->getCreditPoint() * pd->getCredit());
 		pd++;
 	}
 	GPA = totalCreditPoint / totalCredit;

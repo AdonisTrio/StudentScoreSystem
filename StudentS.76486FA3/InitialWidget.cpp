@@ -132,7 +132,8 @@ void InitialWidget::On_bt2_Clicked()
 			sub->initable();
 			this->hide();
 			sub->show();
-			delete csv,db;
+			delete csv;
+			delete db;
 		}
 	}
 }
