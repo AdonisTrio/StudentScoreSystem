@@ -42,6 +42,18 @@ public:
 	//Calculaters:
 	string doubleToString(double num, int precision = 4) { return Courses[0].doubleToString(num, precision); }
 	void calculateTotalCredit();    //根据课程成绩计算总学分
+	/* 输入参数：无
+· 输出参数：无
+· 功能：计算总学分
+· 算法：遍历Courses，若课程得分≥60则累加该课程学分*/
 	void calculateGPA();     //根据课程成绩计算GPA
+	/*· 输入参数：无
+· 输出参数：无
+· 功能：计算平均绩点
+· 算法：GPA = Σ(课程绩点 × 课程学分) / 总学分*/
 	void calculateAverageScore();   //根据课程成绩计算平均分
+	/*· 输入参数：无
+· 输出参数：无
+· 功能：计算平均学分成绩
+· 算法：总加权分 = Σ(课程得分 × 课程学分)（仅计得分≥60的课程）；平均分 = 总加权分 / 总学分*/
 };

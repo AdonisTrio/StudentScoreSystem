@@ -25,6 +25,10 @@ public:
 
 	void updateStudent() { DB->update_Student(manager->getStudents()); }
 	void class_to_table(vector<Student>);
+	/*· 输入参数：students – 待显示的学生列表
+· 输出参数：无
+· 功能：将学生数据填充到表格
+· 算法：动态设置表格行数列数；合并表头单元格（课程名跨两列）；逐行逐列创建QTableWidgetItem并设置内容*/
 
 
 	void customed_sort(int n) { manager->Sort_by_course(n); }
@@ -54,6 +58,10 @@ public:
 
 private slots:
 	void On_cell_changed(QTableWidgetItem* item);
+	/*· 输入参数：item – 被编辑的单元格
+· 输出参数：无
+· 功能：处理单元格修改事件
+· 算法：根据行列判断修改的是学生信息还是课程成绩；进行输入验证（正则表达式限制字符类型）；更新对应的Student对象，触发重新计算汇总值，并刷新表格中相关单元格*/
 
 };
 

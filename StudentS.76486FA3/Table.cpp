@@ -36,7 +36,7 @@ void Table::class_to_table(vector<Student> students)
 	
 	//设置表头
 	this->setItem(0, 0, fixed_StrItem("排名"));
-	this->setSpan(0, 0, 2, 1);
+	this->setSpan(0, 0, 2, 1);   // 参数分别为要合并的单元格首次出现的行标和首列，以及要合并的行数和列数
 	this->setItem(0, 1, fixed_StrItem("学号"));
 	this->setSpan(0, 1, 2, 1);
 	this->setItem(0, 2, fixed_StrItem("姓名"));

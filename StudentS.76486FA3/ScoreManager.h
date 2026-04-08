@@ -23,6 +23,10 @@ public:
 	void clearFilter() { filtering = false; wholeFilter = false; filteredStudents.clear(); pre_filteredStudents = students;}
 
 	void filter_by_name(const string& name);
+	/*· 输入参数：name – 姓名关键字（子串）
+· 输出参数：无
+· 功能：按姓名筛选（包含子串）
+· 算法：若filtering为真，则遍历filteredStudents，否则遍历students；使用string::find匹配姓名中包含关键字的学生，保留到filteredStudents中*/
 	void filter_by_dep(const string& dept);
 	void filter_by_CourseScoreMin(const string& courseName, double minScore); // 课程成绩>=某值
 	void filter_by_CourseScoreMax(const string& courseName, double maxScore);
@@ -34,4 +38,8 @@ public:
 	void default_Sort();
 	void Sort_by_id();
 	void Sort_by_course(int);
+	/*· 输入参数：n – 课程索引（第n门课程）
+· 输出参数：无
+· 功能：按第n门课程成绩降序排序
+· 算法：使用std::sort，比较条件为A[n].getScore() > B[n].getScore()，若成绩相同则按学号升序*/
 };
