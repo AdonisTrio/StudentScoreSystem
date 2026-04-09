@@ -217,7 +217,10 @@ bool DatabaseHelper::verifyTeacher(const QString& username, const QString& passw
 	if (q.next())
 	{
 		QString storedPwd = q.value(0).toString();
-		return storedPwd == getSha256Hash(password);
+		bool isValid = storedPwd == getSha256Hash(password);
+		DB.close();
+		QSqlDatabase::removeDatabase("QSQLITE");
+		return isValid;
 	}
 	return false;
 }

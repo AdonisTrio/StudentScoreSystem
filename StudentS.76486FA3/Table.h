@@ -56,6 +56,8 @@ public:
 	void filter_by_Fail() { manager->filter_by_Fail(); }
 	void clearFilter() { manager->clearFilter(); }
 
+	void closing() { DB->Close(); }
+
 private slots:
 	void On_cell_changed(QTableWidgetItem* item);
 	/*· 输入参数：item – 被编辑的单元格

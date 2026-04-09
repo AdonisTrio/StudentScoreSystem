@@ -18,15 +18,15 @@ MainWindow::MainWindow(QWidget* parent)
 //初始化子窗口
 void MainWindow::initialize_window()
 {
-	//创建表格并设置为中心窗口
 	setWindowTitle("NJUST学生成绩管理系统");
-
+	//设置close时调用析构函数
+	setAttribute(Qt::WA_DeleteOnClose);
 	QScreen* myDesktop = QGuiApplication::primaryScreen();
 	QRect myWholeDesktop = myDesktop->geometry();
 	QRect myAvailableDesktop = myDesktop->availableGeometry();
 	resize(myWholeDesktop.width() * 0.85, myWholeDesktop.height() * 0.85);
 	move((myWholeDesktop.width() - width()) / 2, (myWholeDesktop.height() - height()) * 0.8 / 2);
-
+	//创建表格并设置为中心窗口
 	table = new Table;
 	this->setCentralWidget(table);
 
@@ -368,7 +368,8 @@ void MainWindow::On_returnmenu_triggered()
 			ParentWidget->activateWindow();
 		}
 	}
-	this->close();
+	table->closing();
+	close();
 }
 
 
