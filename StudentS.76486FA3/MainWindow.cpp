@@ -290,8 +290,12 @@ void MainWindow::On_save_menu_triggered()
 		table->clearSelection();
 		table->updateStudent();
 		keep_sort_measure();
-		menuBar()->clear();
-		menu_bar();
+		if(table->course_changed())
+		{
+			menuBar()->clear();
+			menu_bar();
+			table->set_course_changed();
+		}
 		table->setEditTriggers(QAbstractItemView::NoEditTriggers);
 		is_allowed_edited = false;
 	}

@@ -7,6 +7,7 @@ Table::Table(QWidget* parent)
 	DB = nullptr;
 	manager = nullptr;
 	isRefreshing = false;
+	is_course_changed = false;
 	
 	//设置表格不可修改，按下菜单栏的编辑按钮后再设置为可修改
 	setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -151,6 +152,7 @@ void Table::On_cell_changed(QTableWidgetItem* item)
 		{
 			x.getCourses()[i].setCourseName(s[0]);
 			x.updateCourseCredit(i, stod(s[1]));
+			is_course_changed = true;
 		}
 	}
 	else 

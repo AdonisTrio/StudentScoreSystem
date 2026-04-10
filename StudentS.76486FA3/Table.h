@@ -14,6 +14,7 @@ class Table :public QTableWidget
 private:
 	DatabaseHelper* DB;
 	ScoreManager* manager;
+	bool is_course_changed;
 	bool isRefreshing;   //当正在刷新表格时，禁止触发itemChanged事件
 
 public:
@@ -30,6 +31,8 @@ public:
 · 功能：将学生数据填充到表格
 · 算法：动态设置表格行数列数；合并表头单元格（课程名跨两列）；逐行逐列创建QTableWidgetItem并设置内容*/
 
+	bool course_changed() { return is_course_changed; }
+	void set_course_changed() { is_course_changed = false; }
 
 	void customed_sort(int n) { manager->Sort_by_course(n); }
 	void default_sort() { manager->default_Sort(); }
