@@ -248,22 +248,13 @@ void Table::addEmptyStudent()
 
 	vector<Student> newList = manager->getStudents();
 
-	int targetRow = 0;
-	for (int i = 0; i < (int)newList.size(); i++) {
-		if (newList[i].getId() == newId) {
-			// 表格前两行是表头，数据行从第2行开始
-			targetRow = i + 2;
-			break;
-		}
-	}
-
-	if (targetRow >= 2) {
-		// 获取该行第2列（学号列）的单元格，用来定位
-		QTableWidgetItem* cell = this->item(targetRow, 1);
-		if (cell != nullptr) {
+	int targetRow = (int)newList.size() + 1;
+	// 获取该行第2列（学号列）的单元格，用来定位
+	QTableWidgetItem* cell = this->item(targetRow, 1);
+	if (cell != nullptr) 
+	{
 			this->scrollToItem(cell, QAbstractItemView::PositionAtBottom); // 滚动到底部
 			this->selectRow(targetRow); // 高亮整行
-		}
 	}
 }
 
