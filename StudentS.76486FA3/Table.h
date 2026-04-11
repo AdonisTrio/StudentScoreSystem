@@ -19,7 +19,7 @@ private:
 
 public:
 	Table(QWidget* parent = nullptr) ;
-	~Table() { delete DB,manager; }
+	~Table() { delete DB; delete manager; }
 
 	vector<Student> get_saved_studentlist() { return DB->get_All_Students(); }
 	vector<Student> get_current_studentlist() { return manager->getStudents(); }
@@ -59,7 +59,6 @@ public:
 	void filter_by_Fail() { manager->filter_by_Fail(); }
 	void clearFilter() { manager->clearFilter(); }
 
-	void closing() { DB->Close(); }
 
 private slots:
 	void On_cell_changed(QTableWidgetItem* item);

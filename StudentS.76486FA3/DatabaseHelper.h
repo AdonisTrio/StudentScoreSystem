@@ -64,9 +64,6 @@ public:
 · 功能：验证教师登录信息
 · 算法：打开教师数据库，查询username对应的password哈希值，与输入密码的SHA-256哈希值比对*/
 
-	void Close() { db.close(); QSqlDatabase::removeDatabase("QSQLITE");}
-	//关闭数据库连接，并从Qt的数据库连接池中移除当前连接，以释放资源并避免潜在的连接泄漏问题
-
 };
 
 

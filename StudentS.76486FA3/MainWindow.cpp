@@ -358,21 +358,14 @@ void MainWindow::On_returnmenu_triggered()
 {
 	if(isTeacher==false)
 	{
-		if (ParentLoginWidget) {
+		if (ParentLoginWidget) 
 			ParentLoginWidget->show();
-			ParentLoginWidget->raise();
-			ParentLoginWidget->activateWindow();
-		}
 	}
 	else
 	{
-		if (ParentWidget) {
+		if (ParentWidget) 
 			ParentWidget->show();
-			ParentWidget->raise();
-			ParentWidget->activateWindow();
-		}
 	}
-	table->closing();
 	close();
 }
 
