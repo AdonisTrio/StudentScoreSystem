@@ -50,10 +50,10 @@ void LoginWidget::On_bt1_Clicked()
 {
 	// 弹出登录对话框
 	bool ok;
-	QString username = QInputDialog::getText(this, "登录", "用户名:", QLineEdit::Normal, "", &ok);
+	QString username = QInputDialog::getText(this, "登录", "用户名:", QLineEdit::Normal, "Headteacher", &ok);
 	bool isTeacher = false;
 	if (ok && !username.isEmpty()) {
-		QString password = QInputDialog::getText(this, "登录", "密码:", QLineEdit::Password, "", &ok);
+		QString password = QInputDialog::getText(this, "登录", "密码:", QLineEdit::Password, "123456", &ok);
 		if (ok && !password.isEmpty()) {
 			DatabaseHelper* db = new DatabaseHelper;
 			if (db->verifyTeacher(username, password)) {
